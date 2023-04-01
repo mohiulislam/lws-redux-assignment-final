@@ -1,6 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import Logo from "../../assets/image/learningportal.svg";
 function Login({ role }) {
+
+
   return (
     <section className="py-6 bg-primary h-screen grid place-items-center">
       <div className="mx-auto max-w-md px-5 lg:px-0">
@@ -45,12 +48,14 @@ function Login({ role }) {
 
           <div className="flex items-center justify-end">
             <div className="text-sm">
-              <a
-                href="./StudentReistration.html"
-                className="font-medium text-violet-600 hover:text-violet-500"
-              >
-                Create New Account
-              </a>
+              {role === "Student" ? (
+                <Link
+                  to={"/Registration"}
+                  className="font-medium text-violet-600 hover:text-violet-500"
+                >
+                  Create New Account
+                </Link>
+              ) : null}
             </div>
           </div>
 

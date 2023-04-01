@@ -18,6 +18,7 @@ export const authApi = apiSlice.injectEndpoints({
             JSON.stringify({
               accessToken: result.data.accessToken,
               user: result.data.user,
+              role: result.data.role,
             })
           );
 
@@ -25,6 +26,7 @@ export const authApi = apiSlice.injectEndpoints({
             userLoggedIn({
               accessToken: result.data.accessToken,
               user: result.data.user,
+              role: result.data.role,
             })
           );
         } catch (err) {}
@@ -53,6 +55,7 @@ export const authApi = apiSlice.injectEndpoints({
             userLoggedIn({
               accessToken: result.data.accessToken,
               user: result.data.user,
+              role: result.data.role,
             })
           );
         } catch (err) {}

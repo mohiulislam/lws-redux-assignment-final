@@ -15,14 +15,14 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route
+        {/* <Route
           path="/"
           element={
             <PublicRoute>
               <Login role="Student" />
             </PublicRoute>
           }
-        />
+        /> */}
         <Route path="/" element={<Login role="Student" />} />
         <Route path="/Quizzes" element={<Quizzes />} />
         <Route path="/CoursePlayer" element={<CoursePlayer />} />
