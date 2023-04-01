@@ -14,56 +14,56 @@ function Registration() {
           <input type="hidden" name="remember" value="true" />
           <div class="rounded-md shadow-sm -space-y-px">
             <div>
-              <label for="name" class="sr-only">
+              <label htmlFor="name" class="sr-only">
                 Name
               </label>
               <input
                 id="name"
                 name="name"
                 type="name"
-                autocomplete="name"
+                autoComplete="name"
                 required
                 class="login-input rounded-t-md"
                 placeholder="Student Name"
               />
             </div>
             <div>
-              <label for="email-address" class="sr-only">
+              <label htmlFor="email-address" class="sr-only">
                 Email address
               </label>
               <input
                 id="email-address"
                 name="email"
                 type="email"
-                autocomplete="email"
+                autoComplete="email"
                 required
                 class="login-input "
                 placeholder="Email address"
               />
             </div>
             <div>
-              <label for="password" class="sr-only">
+              <label htmlFor="password" class="sr-only">
                 Password
               </label>
               <input
                 id="password"
                 name="password"
                 type="password"
-                autocomplete="current-password"
+                autoComplete="current-password"
                 required
                 class="login-input"
                 placeholder="Password"
               />
             </div>
             <div>
-              <label for="confirm-password" class="sr-only">
+              <label htmlFor="confirm-password" class="sr-only">
                 Confirm Password
               </label>
               <input
                 id="confirm-password"
                 name="confirm-password"
                 type="password"
-                autocomplete="confirm-password"
+                autoComplete="confirm-password"
                 required
                 class="login-input rounded-b-md"
                 placeholder="Confirm Password"
