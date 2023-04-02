@@ -16,6 +16,7 @@ function Registration() {
       name,
       email,
       password,
+      role: "student",
     });
   };
 

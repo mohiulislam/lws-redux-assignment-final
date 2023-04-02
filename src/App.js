@@ -11,18 +11,23 @@ import AssignmentMarks from "./components/dashboard/pages/AssignmentMarks";
 import Dashboard from "./components/dashboard/pages/Dashboard";
 import Videos from "./components/dashboard/pages/Videos";
 import Assignments from "./components/dashboard/pages/Assignments";
+import useAuthCheck from "./hooks/useAuthCheck";
+import AuthLoader from "./components/common/AuthLoader";
 function App() {
-  return (
+  const isAuthentic = useAuthCheck();
+  return !isAuthentic ? (
+    <AuthLoader />
+  ) : (
     <Router>
       <Routes>
         {/* <Route
-          path="/"
-          element={
-            <PublicRoute>
-              <Login role="Student" />
-            </PublicRoute>
-          }
-        /> */}
+        path="/"
+        element={
+          <PublicRoute>
+            <Login role="Student" />
+          </PublicRoute>
+        }
+      /> */}
         <Route path="/" element={<Login role="Student" />} />
         <Route path="/Quizzes" element={<Quizzes />} />
         <Route path="/CoursePlayer" element={<CoursePlayer />} />
@@ -31,13 +36,13 @@ function App() {
 
         {/*all admin routes here */}
         {/* <Route
-          path="/"
-          element={
-            <PublicRoute>
-              <Login role="Admin" />
-            </PublicRoute>
-          }
-        /> */}
+        path="/"
+        element={
+          <PublicRoute>
+            <Login role="Admin" />
+          </PublicRoute>
+        }
+      /> */}
         <Route path="/Admin/Login" element={<Login role="Admin" />} />
         <Route path="/Admin/Assignments" element={<Assignments />} />
         <Route path="/Admin/AssignmentMarks" element={<AssignmentMarks />} />

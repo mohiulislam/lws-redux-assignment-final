@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/image/learningportal.svg";
-function Login({ role }) {
+import { useLoginMutation } from "../../features/auth/authApi";
 
+function Login({ role }) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, { data, isLoading, error: responseError }] = useLoginMutation();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    login({ email, password });
+  };
 
   return (
     <section className="py-6 bg-primary h-screen grid place-items-center">
@@ -13,7 +22,7 @@ function Login({ role }) {
             Sign in to {role} Account
           </h2>
         </div>
-        <form className="mt-8 space-y-6" action="#" method="POST">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <input type="hidden" name="remember" value="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
@@ -28,6 +37,8 @@ function Login({ role }) {
                 required
                 className="login-input rounded-t-md"
                 placeholder="Email address"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
               />
             </div>
             <div>
@@ -42,6 +53,8 @@ function Login({ role }) {
                 required
                 className="login-input rounded-b-md"
                 placeholder="Password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
               />
             </div>
           </div>
