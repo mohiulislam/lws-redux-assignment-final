@@ -13,6 +13,7 @@ import Videos from "./components/dashboard/pages/Videos";
 import Assignments from "./components/dashboard/pages/Assignments";
 import useAuthCheck from "./hooks/useAuthCheck";
 import AuthLoader from "./components/common/AuthLoader";
+import AssignmentModal from "./components/student/SubComponents/AssignmentModal";
 function App() {
   const isAuthentic = useAuthCheck();
   return !isAuthentic ? (
@@ -28,6 +29,7 @@ function App() {
           </PublicRoute>
         }
       /> */}
+        <Route path="/" element={<AssignmentModal />} />
         <Route path="/" element={<Login role="Student" />} />
         <Route path="/Quizzes" element={<Quizzes />} />
         <Route path="/CoursePlayer" element={<CoursePlayer />} />
