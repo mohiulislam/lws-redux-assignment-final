@@ -1,5 +1,5 @@
 import apiSlice from "../api/apiSlice";
-export const authApi = apiSlice.injectEndpoints({
+export const videoApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getVideos: builder.query({
       query: () => ({
@@ -10,4 +10,4 @@ export const authApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetVideosQuery } = authApi;
+export const { useGetVideosQuery } = videoApi;

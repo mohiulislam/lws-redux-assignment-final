@@ -10,7 +10,12 @@ function VideoList() {
 
   let content;
   if (isLoading) {
-    content = <Loader />;
+    content = (
+      <div className="h-20 w-20">
+        {" "}
+        <Loader />
+      </div>
+    );
   }
 
   if (!isLoading && isError) {

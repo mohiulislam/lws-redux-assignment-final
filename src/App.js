@@ -21,31 +21,16 @@ function App() {
   ) : (
     <Router>
       <Routes>
-        {/* <Route
-        path="/"
-        element={
-          <PublicRoute>
-            <Login role="Student" />
-          </PublicRoute>
-        }
-      /> */}
-        <Route path="/" element={<AssignmentModal />} />
+
         <Route path="/" element={<Login role="Student" />} />
+        
         <Route path="/Quizzes" element={<Quizzes />} />
         <Route path="/CoursePlayer" element={<CoursePlayer />} />
         <Route path="/Leaderboard" element={<Leaderboard />} />
         <Route path="/Registration" element={<Registration />} />
 
-        {/*all admin routes here */}
-        {/* <Route
-        path="/"
-        element={
-          <PublicRoute>
-            <Login role="Admin" />
-          </PublicRoute>
-        }
-      /> */}
         <Route path="/Admin/Login" element={<Login role="Admin" />} />
+
         <Route path="/Admin/Assignments" element={<Assignments />} />
         <Route path="/Admin/AssignmentMarks" element={<AssignmentMarks />} />
         <Route path="/Admin/Dashboard" element={<Dashboard />} />

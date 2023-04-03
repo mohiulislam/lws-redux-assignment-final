@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useGetVideosQuery } from "../../../features/video/videoApi";
 import MainLayout from "../../layouts/MainLayout";
+import AssignmentModal from "../SubComponents/AssignmentModal";
 import VideoList from "../SubComponents/VideoList";
 
 function CoursePlayer({}) {
   const { data: videos, isLoading, isError, error } = useGetVideosQuery();
   console.log(videos ? videos[0].title : null);
-
+  const [isModalOpen, setModalOpen] = useState(false);
   return (
     <MainLayout>
       <section className="py-6 bg-primary">
@@ -31,13 +32,17 @@ function CoursePlayer({}) {
                   Uploaded on 23 February 2020
                 </h2>
                 <div className="flex gap-4">
-                  <a
-                    href="#"
+                  <button
+                    onClick={() => setModalOpen(true)}
                     className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"
                   >
                     এসাইনমেন্ট
-                  </a>
-
+                  </button>
+                  <div className="absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2 ">
+                    {isModalOpen ? (
+                      <AssignmentModal setModalOpen={setModalOpen} />
+                    ) : null}
+                  </div>
                   <a
                     href="./Quiz.html"
                     className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"
