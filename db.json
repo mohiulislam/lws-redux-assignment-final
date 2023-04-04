@@ -94,12 +94,12 @@
       "video_title": "Debounce Function in JavaScript - JavaScript Job Interview question",
       "options": [
         {
-          "id": "1",
+          "id": 1,
           "option": "A function that is called after a certain time interval",
           "isCorrect": true
         },
         {
-          "id": "2",
+          "id": 2,
           "option": "A function that is called after a certain time interval",
           "isCorrect": false
         },
@@ -122,12 +122,12 @@
       "video_title": "Debounce Function in JavaScript - JavaScript Job Interview question",
       "options": [
         {
-          "id": "1",
+          "id": 1,
           "option": "A search bar where the results are displayed as you type.",
           "isCorrect": true
         },
         {
-          "id": "2",
+          "id": 2,
           "option": "A button that performs an action when clicked.",
           "isCorrect": false
         },
