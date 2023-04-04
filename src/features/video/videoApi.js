@@ -7,13 +7,7 @@ export const videoApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
-    getVideoByID: builder.query({
-      query: (id) => ({
-        url: `/videos/${id}`,
-        method: "GET",
-      }),
-    }),
-    getVideoByTitle: builder.query({
+    getVideo: builder.query({
       query: (id) => ({
         url: `/videos/${id}`,
         method: "GET",
@@ -22,5 +16,4 @@ export const videoApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetVideosQuery, useGetVideoQuery, useGetVideoByTitleQuery } =
-  videoApi;
+export const { useGetVideosQuery, useGetVideoQuery } = videoApi;

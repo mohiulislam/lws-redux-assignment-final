@@ -1,43 +1,37 @@
 import Error from "components/common/Error";
 import Loader from "components/common/Loader";
-import { selectCurrentlyPlayingVideoId } from "features/player/playerSelectors";
+import NotFound from "components/common/NotFound";
 import { useGetQuizzesQuery } from "features/quiz/quizApi";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import MainLayout from "../../layouts/MainLayout";
 import Quiz from "../SubComponents/Quiz";
 
 function Quizzes() {
-  const currentlyPlayingVideoId = useSelector(selectCurrentlyPlayingVideoId);
+  const { videoId } = useParams();
+
   const {
     data: quizzes,
-    isLoading,
-    isError,
-    error,
-  } = useGetQuizzesQuery(currentlyPlayingVideoId);
-  console.log(quizzes);
-  if (isLoading) {
-    return <Loader />;
-  }
-  if (!isLoading && isError) {
-    return <Error message={error.message||""}/>;
-  }
-  if (isLoading) {
-    return <Loader />;
-  }
-  if (isLoading) {
-    return <Loader />;
-  }
+    isLoading: isLoadingQuiz,
+    isError: isErrorQuiz,
+    error: errorQuiz,
+  } = useGetQuizzesQuery(videoId);
 
+  if (isLoadingQuiz) {
+    return <Loader />;
+  }
+  if (!isLoadingQuiz && isErrorQuiz) {
+    return <Error message={errorQuiz.message || "server error"} />;
+  }
+  if (!isLoadingQuiz && !isErrorQuiz && quizzes.length === 0) {
+    return <NotFound desire="quiz" />;
+  }
   return (
     <MainLayout>
       <section className="py-6 bg-primary">
         <div className="mx-auto max-w-7xl px-5 lg:px-0">
           <div className="mb-8">
-            <h1 className="text-2xl font-bold">
-              Quizzes for "Debounce Function in JavaScript - JavaScript Job
-              Interview question"
-            </h1>
+            <h1 className="text-2xl font-bold">{quizzes[0].video_title}</h1>
             <p className="text-sm text-slate-200">
               Each question contains 5 Mark
             </p>

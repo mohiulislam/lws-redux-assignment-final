@@ -20,7 +20,6 @@ function CoursePlayer() {
     error: videosError,
     
   } = useGetVideosQuery();
-  console.log(videos, videosIsLoading, videosIsError, videosError?.message);
 
   const [isModalOpen, setModalOpen] = useState(false);
 

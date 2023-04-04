@@ -1,7 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 
-function VIdeoListVideo() {
+function VIdeoListVideo({ video }) {
   return (
     <div className=" w-full flex flex-row gap-2 cursor-pointer hover:bg-slate-900 p-2 py-3">
       {/* <!-- Thumbnail --> */}
@@ -26,10 +25,7 @@ function VIdeoListVideo() {
       {/* <!-- Description --> */}
       <div clas="flex flex-col w-full">
         <a>
-          <p className="text-slate-50 text-sm font-medium">
-            Things I wish I knew as a Junior Web Developer - Sumit Saha - BASIS
-            SoftExpo 2023
-          </p>
+          <p className="text-slate-50 text-sm font-medium">{video?.title}</p>
         </a>
         <div>
           <span className="text-gray-400 text-xs mt-1">34.5 Mins</span>
