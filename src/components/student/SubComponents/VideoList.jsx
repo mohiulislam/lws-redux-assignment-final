@@ -13,15 +13,13 @@ function VideoList() {
   const { data: videos, isLoading, isError, error } = useGetVideosQuery();
 
   let content;
-  if (isLoading) {
+  if (!isLoading) {
     content = (
-      <div className="h-20 w-20">
-        {" "}
+      <div className="absolute bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2 h-20 w-20">
         <Loader />
       </div>
     );
   }
-
   if (!isLoading && isError) {
     content = <Error message={error} />;
   }
@@ -38,7 +36,7 @@ function VideoList() {
     ));
   }
   return (
-    <div className="col-span-full lg:col-auto max-h-[570px] overflow-y-auto bg-secondary p-4 rounded-md border border-slate-50/10 divide-y divide-slate-600/30">
+    <div className="relative col-span-full lg:col-auto max-h-[570px] overflow-y-auto bg-secondary p-4 rounded-md border border-slate-50/10 divide-y divide-slate-600/30">
       {content}
     </div>
   );

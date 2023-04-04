@@ -1,17 +1,17 @@
-import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AuthLoader from "components/common/AuthLoader";
+import AssignmentMarks from "components/dashboard/pages/AssignmentMarks";
+import Assignments from "components/dashboard/pages/Assignments";
+import Dashboard from "components/dashboard/pages/Dashboard";
+import Quizzes from "components/student/pages/Quizzes";
 import CoursePlayer from "components/student/pages/CoursePlayer";
 import Leaderboard from "components/student/pages/Leaderboard";
-import Login from "components/common/Login";
-import Quizzes from "components/student/pages/Quizzes";
-import AdminQuizzes from "components/dashboard/pages/Quizzes";
 import Registration from "components/student/pages/Registration";
-import AssignmentMarks from "components/dashboard/pages/AssignmentMarks";
-import Dashboard from "components/dashboard/pages/Dashboard";
-import Videos from "components/dashboard/pages/Videos";
-import Assignments from "components/dashboard/pages/Assignments";
 import useAuthCheck from "hooks/useAuthCheck";
-import AuthLoader from "components/common/AuthLoader";
+import React from "react";
+import AdminQuizzes from "components/dashboard/pages/Quizzes";
+import Videos from "components/dashboard/pages/Videos";
+import Login from "components/common/Login";
 function App() {
   const isAuthentic = useAuthCheck();
   return !isAuthentic ? (
@@ -20,8 +20,8 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Login role="Student" />} />
-        <Route path="/Quizzes/:videoId" element={<Quizzes />} />
 
+        <Route path="/Quizzes/:videoId" element={<Quizzes />} />
         <Route path="/CoursePlayer/" element={<CoursePlayer />} />
         <Route path="/Leaderboard" element={<Leaderboard />} />
         <Route path="/Registration" element={<Registration />} />

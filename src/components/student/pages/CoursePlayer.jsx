@@ -1,9 +1,10 @@
+import MainLayout from "components/layouts/MainLayout";
 import { selectCurrentlyPlayingVideoId } from "features/player/playerSelectors";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetVideosQuery } from "../../../features/video/videoApi";
-import MainLayout from "../../layouts/MainLayout";
+
 import AssignmentModal from "../SubComponents/AssignmentModal";
 import VideoList from "../SubComponents/VideoList";
 
