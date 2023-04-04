@@ -3,19 +3,12 @@ export const assignmentApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     submitAssignment: builder.mutation({
       query: (data) => ({
-        url: "/assignment",
+        url: "/assignmentMark",
         method: "POST",
         body: data,
-      }),
-    }),
-    getAssignment: builder.query({
-      query: (id) => ({
-        url: `/assignment/${id}`,
-        method: "GET",
       }),
     }),
   }),
 });
 
-export const { useSubmitAssignmentMutation, useGetAssignmentQuery } =
-  assignmentApi;
+export const { useSubmitAssignmentMutation } = assignmentApi;

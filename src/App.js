@@ -6,14 +6,14 @@ import Login from "./components/common/Login";
 import Quizzes from "./components/student/pages/Quizzes";
 import AdminQuizzes from "./components/dashboard/pages/Quizzes";
 import Registration from "./components/student/pages/Registration";
-import PublicRoute from "./components/routes/PublicRoute";
 import AssignmentMarks from "./components/dashboard/pages/AssignmentMarks";
 import Dashboard from "./components/dashboard/pages/Dashboard";
 import Videos from "./components/dashboard/pages/Videos";
 import Assignments from "./components/dashboard/pages/Assignments";
 import useAuthCheck from "./hooks/useAuthCheck";
 import AuthLoader from "./components/common/AuthLoader";
-import AssignmentModal from "./components/student/SubComponents/AssignmentModal";
+import { Navigate } from "react-router-dom";
+
 function App() {
   const isAuthentic = useAuthCheck();
   return !isAuthentic ? (
@@ -21,11 +21,10 @@ function App() {
   ) : (
     <Router>
       <Routes>
-
         <Route path="/" element={<Login role="Student" />} />
-        
-        <Route path="/Quizzes" element={<Quizzes />} />
-        <Route path="/CoursePlayer" element={<CoursePlayer />} />
+        <Route path="/Quizzes/:videoId" element={<Quizzes />} />
+
+        <Route path="/CoursePlayer/" element={<CoursePlayer />} />
         <Route path="/Leaderboard" element={<Leaderboard />} />
         <Route path="/Registration" element={<Registration />} />
 

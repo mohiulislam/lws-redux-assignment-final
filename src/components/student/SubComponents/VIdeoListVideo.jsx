@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function VIdeoListVideo() {
   return (
-    <div className="w-full flex flex-row gap-2 cursor-pointer hover:bg-slate-900 p-2 py-3">
+    <div className=" w-full flex flex-row gap-2 cursor-pointer hover:bg-slate-900 p-2 py-3">
       {/* <!-- Thumbnail --> */}
       <svg
         fill="none"
@@ -24,7 +25,7 @@ function VIdeoListVideo() {
       </svg>
       {/* <!-- Description --> */}
       <div clas="flex flex-col w-full">
-        <a href="#">
+        <a>
           <p className="text-slate-50 text-sm font-medium">
             Things I wish I knew as a Junior Web Developer - Sumit Saha - BASIS
             SoftExpo 2023

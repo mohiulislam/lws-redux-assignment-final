@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import { selectCurrentlyPlayingVideoId } from "features/player/playerSelectors";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useGetAssignmentQuery } from "../../../features/assignment/assignmentApi";
 import { useGetVideosQuery } from "../../../features/video/videoApi";
 import MainLayout from "../../layouts/MainLayout";
 import AssignmentModal from "../SubComponents/AssignmentModal";
 import VideoList from "../SubComponents/VideoList";
 
-function CoursePlayer({}) {
-  const { data: videos, isLoading, isError, error } = useGetVideosQuery();
-  console.log(videos ? videos[0].title : null);
+function CoursePlayer() {
+  const currentlyPlayingVideoId = useSelector(selectCurrentlyPlayingVideoId);
+  const {
+    data: videos,
+    isLoading: videosIsLoading,
+    isError: videosIsError,
+    error: videosError,
+  } = useGetVideosQuery();
+
   const [isModalOpen, setModalOpen] = useState(false);
   return (
     <MainLayout>
@@ -17,7 +29,7 @@ function CoursePlayer({}) {
               <iframe
                 width="100%"
                 className="aspect-video"
-                src={videos ? videos[0].url : null}
+                src={videos ? videos[currentlyPlayingVideoId - 1].url : null}
                 title="Things I wish I knew as a Junior Web Developer - Sumit Saha - BASIS SoftExpo 2023"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -26,7 +38,7 @@ function CoursePlayer({}) {
 
               <div>
                 <h1 className="text-lg font-semibold tracking-tight text-slate-100">
-                  {videos ? videos[0].title : null}
+                  {videos ? videos[currentlyPlayingVideoId - 1].title : null}
                 </h1>
                 <h2 className="pb-4 text-sm leading-[1.7142857] text-slate-400">
                   Uploaded on 23 February 2020
@@ -38,20 +50,25 @@ function CoursePlayer({}) {
                   >
                     এসাইনমেন্ট
                   </button>
-                  <div className="absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2 ">
+                  <div className=" ">
                     {isModalOpen ? (
-                      <AssignmentModal setModalOpen={setModalOpen} />
+                      <AssignmentModal
+                        currentlyPlayingVideoId={currentlyPlayingVideoId}
+                        setModalOpen={setModalOpen}
+                      />
                     ) : null}
                   </div>
-                  <a
-                    href="./Quiz.html"
+                  <Link
+                    to={`/Quizzes/${currentlyPlayingVideoId}`}
                     className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"
                   >
                     কুইজে অংশগ্রহণ করুন
-                  </a>
+                  </Link>
                 </div>
                 <p className="mt-4 text-sm text-slate-400 leading-6">
-                  {videos ? videos[0].description : null}
+                  {videos
+                    ? videos[currentlyPlayingVideoId - 1].description
+                    : null}
                 </p>
               </div>
             </div>
