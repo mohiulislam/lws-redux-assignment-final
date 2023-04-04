@@ -1,3 +1,6 @@
+import Error from "components/common/Error";
+import Loader from "components/common/Loader";
+import NotFound from "components/common/NotFound";
 import MainLayout from "components/layouts/MainLayout";
 import { selectCurrentlyPlayingVideoId } from "features/player/playerSelectors";
 import React, { useState } from "react";
@@ -15,9 +18,23 @@ function CoursePlayer() {
     isLoading: videosIsLoading,
     isError: videosIsError,
     error: videosError,
+    
   } = useGetVideosQuery();
+  console.log(videos, videosIsLoading, videosIsError, videosError?.message);
 
   const [isModalOpen, setModalOpen] = useState(false);
+
+  if (videosIsLoading) {
+    return <Loader />;
+  }
+
+  if (videosIsError && !videosIsLoading) {
+    return <Error message={videosError?.message||"server error"} />;
+  }
+  if (videosIsLoading && !videosIsError && videos.length === 0) {
+    return <NotFound desire="Videos" />;
+  }
+
   return (
     <MainLayout>
       <section className="py-6 bg-primary">

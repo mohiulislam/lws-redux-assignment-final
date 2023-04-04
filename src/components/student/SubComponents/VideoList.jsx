@@ -13,15 +13,11 @@ function VideoList() {
   const { data: videos, isLoading, isError, error } = useGetVideosQuery();
 
   let content;
-  if (!isLoading) {
-    content = (
-      <div className="absolute bottom-1/2 translate-y-1/2 right-1/2 translate-x-1/2 h-20 w-20">
-        <Loader />
-      </div>
-    );
+  if (1) {
+    content = <Loader />;
   }
   if (!isLoading && isError) {
-    content = <Error message={error} />;
+    content = <Error message={error.message || "Video not found"} />;
   }
 
   if (!isLoading && !isError && videos?.length === 0) {

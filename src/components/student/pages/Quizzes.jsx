@@ -1,3 +1,5 @@
+import Error from "components/common/Error";
+import Loader from "components/common/Loader";
 import { selectCurrentlyPlayingVideoId } from "features/player/playerSelectors";
 import { useGetQuizzesQuery } from "features/quiz/quizApi";
 import React from "react";
@@ -11,8 +13,21 @@ function Quizzes() {
     data: quizzes,
     isLoading,
     isError,
+    error,
   } = useGetQuizzesQuery(currentlyPlayingVideoId);
   console.log(quizzes);
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (!isLoading && isError) {
+    return <Error message={error.message||""}/>;
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <MainLayout>
