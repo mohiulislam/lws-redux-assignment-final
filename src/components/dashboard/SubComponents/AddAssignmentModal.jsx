@@ -3,28 +3,31 @@ import {
   useGetAssignmentsQuery,
   useUpdateAssignmentMutation,
 } from "features/assignment/assignmentApi";
-import { selectAssignmentIdForEdit } from "features/assignment/assignmentSelectors";
+import { selectAssignmentIdToEdit } from "features/assignment/assignmentSelectors";
+
+import { editAssignment } from "features/assignment/assignmentSlice";
 import { useGetVideosQuery } from "features/video/videoApi";
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function AddAssignmentModal({ setModalOpen }) {
-  const assignmentIdForEdit = useSelector(selectAssignmentIdForEdit);
+  const assignmentIdToEdit = useSelector(selectAssignmentIdToEdit);
 
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(null);
 
-  const [totalMark, setTotalMark] = useState("");
+  const [totalMark, setTotalMark] = useState(null);
 
-  const [selectedVideoTitle, setSelectedVideoTitle] = useState("");
+  const [selectedVideoTitle, setSelectedVideoTitle] = useState(null);
 
   const [selectedVideoId, setSelectedVideoId] = useState(null);
-
+  const dispatch = useDispatch();
   const {
     data: videos,
     isLoading: videosIsLoading,
     isError: videosIsError,
   } = useGetVideosQuery();
+  console.log(selectedVideoId);
 
   const {
     data: assignments,
@@ -33,18 +36,18 @@ function AddAssignmentModal({ setModalOpen }) {
     // error: assignmentsError,
   } = useGetAssignmentsQuery();
 
-  console.log(assignmentIdForEdit);
-
   useEffect(() => {
-    if (assignmentIdForEdit) {
-      const assignmentForEdit = assignments.find(
-        (assignment) => assignment.id === assignmentIdForEdit
+    if (assignmentIdToEdit) {
+      const assignmentToEdit = assignments.find(
+        (assignment) => assignment.id === assignmentIdToEdit
       );
-      setTitle(assignmentForEdit?.title?.match(/- (.*)/)[1]);
-      setTotalMark(assignmentForEdit?.totalMark);
-      setSelectedVideoTitle(assignmentForEdit?.video_title);
+      console.log(assignmentToEdit);
+      setTitle(assignmentToEdit?.title?.match(/- (.*)/)?.[1]);
+      setTotalMark(assignmentToEdit?.totalMark);
+      setSelectedVideoTitle(assignmentToEdit?.video_title);
+      setSelectedVideoId(assignmentToEdit?.video_id);
     }
-  }, []);
+  }, [assignmentIdToEdit, assignments]);
 
   const [
     addAssignment,
@@ -67,18 +70,23 @@ function AddAssignmentModal({ setModalOpen }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    addAssignment({
-      title: `Assignment ${assignments.length + 1} ${title}`,
-      video_title: selectedVideoTitle,
-      totalMark,
-      video_id: selectedVideoId,
-    });
-    updateAssignment({
-      title: `Assignment ${assignments.length + 1} ${title}`,
-      video_title: selectedVideoTitle,
-      totalMark,
-      video_id: selectedVideoId,
-    })
+
+    !assignmentIdToEdit
+      ? addAssignment({
+          title: `Assignment ${assignments.length + 1} - ${title}`,
+          video_title: selectedVideoTitle,
+          totalMark,
+          video_id: selectedVideoId,
+        })
+      : updateAssignment({
+          id: assignmentIdToEdit,
+          data: {
+            title: `Assignment ${assignmentIdToEdit + 1} - ${title}`,
+            video_title: selectedVideoTitle,
+            totalMark,
+            video_id: selectedVideoId,
+          },
+        });
   }
   function handleSelectVideoOnchange(e) {
     setSelectedVideoTitle(e.target.value);
@@ -86,15 +94,19 @@ function AddAssignmentModal({ setModalOpen }) {
       parseFloat(e.target.selectedOptions[0].getAttribute("data-id"))
     );
   }
+  function handleModalClose() {
+    setModalOpen(false);
+    dispatch(editAssignment(null));
+  }
   return (
     <div className=" absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  p-12  border-4 w-full max-w-xl border-blue-950 rounded-md bg-primary font-HindSiliguri">
       <AiOutlineClose
-        onClick={() => setModalOpen(false)}
+        onClick={handleModalClose}
         className="text-red-500 text-2xl absolute top-0 m-4 right-0"
       />
       <h1 className="text-2xl font-bold mb-6">
         <span className="text-cyan-400">এসাইনমেন্ট</span>{" "}
-        {assignmentIdForEdit ? "এডিট" : "তৈরি"} করুন
+        {assignmentIdToEdit ? "এডিট" : "তৈরি"} করুন
       </h1>
 
       <form className="mt-10">
@@ -102,6 +114,7 @@ function AddAssignmentModal({ setModalOpen }) {
           এসাইনমেন্ট টাইটেল <span className="text-red-500">*</span>
         </label>
         <input
+          required={true}
           className=" mb-6  mt-2 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
           type="text"
           name=""
@@ -113,14 +126,16 @@ function AddAssignmentModal({ setModalOpen }) {
           সর্বমোট নম্বর <span className="text-red-500">*</span>
         </label>
         <input
+          required
           value={totalMark}
           className="mt-2 mb-6 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
-          type="text"
+          type="number"
           name=""
           id="gitRepoLink"
-          onChange={(e) => setTotalMark(e.target.value)}
+          onChange={(e) => setTotalMark(parseFloat(e.target.value))}
         />
         <select
+          required
           onChange={handleSelectVideoOnchange}
           value={selectedVideoTitle}
           className="block selectOptionHeight-16 bg-blue-950 h-10 outline-none"
@@ -131,18 +146,25 @@ function AddAssignmentModal({ setModalOpen }) {
           {!videosIsLoading &&
             !videosIsError &&
             videos.length > 0 &&
-            videos.map((video) => (
-              <option key={video.id} data-id={video.id} value={video.title}>
-                {video.title}
-              </option>
-            ))}
+            videos
+              .filter(
+                (video) =>
+                  !assignments.some(
+                    (assignment) => assignment.video_id === video.id
+                  )
+              )
+              .map((video) => (
+                <option key={video.id} data-id={video.id} value={video.title}>
+                  {video.title}
+                </option>
+              ))}
         </select>
         <button
           className=" mt-10 block from-cyan-500 bg-gradient-to-r to-blue-500 rounded-md p-2"
           type="submit"
           onClick={handleSubmit}
         >
-          তৈরি করুন
+          {assignmentIdToEdit ? "এডিট" : "তৈরি"} করুন
         </button>
       </form>
     </div>
