@@ -1,8 +1,16 @@
+import { assignmentIdForEdit } from "features/assignment/assignmentSlice";
 import React from "react";
+import { useDispatch } from "react-redux";
 
 function Assignment({
+  setModalOpen,
   assignment: { id, title, video_title, totalMark, video_id },
 }) {
+  const dispatch = useDispatch();
+  function handleEdit() {
+    setModalOpen(true);
+    dispatch(assignmentIdForEdit(id));
+  }
   return (
     <tr>
       <td className="table-td">{title}</td>
@@ -23,6 +31,7 @@ function Assignment({
           />
         </svg>
         <svg
+          onClick={handleEdit}
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth="1.5"

@@ -29,12 +29,17 @@ function Assignments() {
   ) {
     <NotFound desire={"assignment"} />;
   }
+  const [isModalOpen, setModalOpen] = useState(false);
   if (!assignmentsIsLoading && !assignmentsIsError && assignments.length > 0) {
     content = assignments.map((assignment) => (
-      <Assignment key={assignment?.id} assignment={assignment || {}} />
+      <Assignment
+        setModalOpen={setModalOpen}
+        key={assignment?.id}
+        assignment={assignment || {}}
+      />
     ));
   }
-  const [isModalOpen, setModalOpen] = useState(false);
+
   return (
     <MainLayout>
       <section className="py-6 bg-primary">

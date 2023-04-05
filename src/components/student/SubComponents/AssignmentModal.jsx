@@ -31,7 +31,7 @@ function AssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
   }
 
   return (
-    <div className="absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  p-12  border-4 w-full max-w-xl border-blue-950 rounded-md bg-primary font-HindSiliguri">
+    <div className="z-50 absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  p-12  border-4 w-full max-w-xl border-blue-950 rounded-md bg-primary font-HindSiliguri">
       <AiOutlineClose
         onClick={() => setModalOpen(false)}
         className="text-red-500 text-2xl absolute top-0 m-4 right-0"

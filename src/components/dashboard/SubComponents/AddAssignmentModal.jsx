@@ -1,21 +1,30 @@
 import {
   useAddAssignmentMutation,
   useGetAssignmentsQuery,
+  useUpdateAssignmentMutation,
 } from "features/assignment/assignmentApi";
+import { selectAssignmentIdForEdit } from "features/assignment/assignmentSelectors";
 import { useGetVideosQuery } from "features/video/videoApi";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
+import { useSelector } from "react-redux";
+
 function AddAssignmentModal({ setModalOpen }) {
+  const assignmentIdForEdit = useSelector(selectAssignmentIdForEdit);
+
   const [title, setTitle] = useState("");
-  const [totalMarks, setTotalMarks] = useState("");
-  const [selectedVideoTitle, setSelectedVideoTile] = useState("");
+
+  const [totalMark, setTotalMark] = useState("");
+
+  const [selectedVideoTitle, setSelectedVideoTitle] = useState("");
+
   const [selectedVideoId, setSelectedVideoId] = useState(null);
+
   const {
     data: videos,
     isLoading: videosIsLoading,
     isError: videosIsError,
   } = useGetVideosQuery();
-  console.log(selectedVideoId);
 
   const {
     data: assignments,
@@ -24,32 +33,68 @@ function AddAssignmentModal({ setModalOpen }) {
     // error: assignmentsError,
   } = useGetAssignmentsQuery();
 
-  const [addAssignment, { isLoading, isSuccess, isError, error }] =
-    useAddAssignmentMutation();
+  console.log(assignmentIdForEdit);
+
+  useEffect(() => {
+    if (assignmentIdForEdit) {
+      const assignmentForEdit = assignments.find(
+        (assignment) => assignment.id === assignmentIdForEdit
+      );
+      setTitle(assignmentForEdit?.title?.match(/- (.*)/)[1]);
+      setTotalMark(assignmentForEdit?.totalMark);
+      setSelectedVideoTitle(assignmentForEdit?.video_title);
+    }
+  }, []);
+
+  const [
+    addAssignment,
+    {
+      isLoading: addLoading,
+      isSuccess: addSuccess,
+      isError: addIsError,
+      error: addError,
+    },
+  ] = useAddAssignmentMutation();
+  const [
+    updateAssignment,
+    {
+      isLoading: updateLoading,
+      isSuccess: updateSuccess,
+      isError: updateIsError,
+      error: updateError,
+    },
+  ] = useUpdateAssignmentMutation();
 
   function handleSubmit(e) {
     e.preventDefault();
     addAssignment({
       title: `Assignment ${assignments.length + 1} ${title}`,
       video_title: selectedVideoTitle,
-      totalMarks,
+      totalMark,
       video_id: selectedVideoId,
     });
+    updateAssignment({
+      title: `Assignment ${assignments.length + 1} ${title}`,
+      video_title: selectedVideoTitle,
+      totalMark,
+      video_id: selectedVideoId,
+    })
   }
   function handleSelectVideoOnchange(e) {
-    setSelectedVideoTile(e.target.value);
+    setSelectedVideoTitle(e.target.value);
     setSelectedVideoId(
       parseFloat(e.target.selectedOptions[0].getAttribute("data-id"))
     );
   }
   return (
-    <div className="absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  p-12  border-4 w-full max-w-xl border-blue-950 rounded-md bg-primary font-HindSiliguri">
+    <div className=" absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  p-12  border-4 w-full max-w-xl border-blue-950 rounded-md bg-primary font-HindSiliguri">
       <AiOutlineClose
         onClick={() => setModalOpen(false)}
         className="text-red-500 text-2xl absolute top-0 m-4 right-0"
       />
       <h1 className="text-2xl font-bold mb-6">
-        <span className="text-cyan-400">এসাইনমেন্ট</span> তৈরি করুন
+        <span className="text-cyan-400">এসাইনমেন্ট</span>{" "}
+        {assignmentIdForEdit ? "এডিট" : "তৈরি"} করুন
       </h1>
 
       <form className="mt-10">
@@ -68,12 +113,12 @@ function AddAssignmentModal({ setModalOpen }) {
           সর্বমোট নম্বর <span className="text-red-500">*</span>
         </label>
         <input
-          value={totalMarks}
+          value={totalMark}
           className="mt-2 mb-6 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
           type="text"
           name=""
           id="gitRepoLink"
-          onChange={(e) => setTotalMarks(e.target.value)}
+          onChange={(e) => setTotalMark(e.target.value)}
         />
         <select
           onChange={handleSelectVideoOnchange}
