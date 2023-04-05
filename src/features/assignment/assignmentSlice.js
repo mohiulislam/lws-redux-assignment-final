@@ -1,18 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  assignmentIdForEdit: null,
+  assignmentIdToEdit: null,
 };
 
 const assignmentSlice = createSlice({
   name: "assignment",
   initialState,
   reducers: {
-    assignmentIdForEdit: (state, action) => {
-      state.assignmentIdForEdit = action.payload;
+    editAssignment: (state, action) => {
+      state.assignmentIdToEdit = action.payload;
     },
   },
 });
 
-export const { assignmentIdForEdit } = assignmentSlice.actions;
+export const { editAssignment } = assignmentSlice.actions;
 export default assignmentSlice.reducer;

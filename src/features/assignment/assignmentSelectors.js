@@ -1,2 +1,2 @@
-export const selectAssignmentIdForEdit = (state) =>
-  state.assignment.assignmentIdForEdit;
+export const selectAssignmentIdToEdit = (state) =>
+  state.assignment.assignmentIdToEdit;

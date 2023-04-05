@@ -1,4 +1,4 @@
-import { assignmentIdForEdit } from "features/assignment/assignmentSlice";
+import { editAssignment } from "features/assignment/assignmentSlice";
 import React from "react";
 import { useDispatch } from "react-redux";
 
@@ -9,7 +9,7 @@ function Assignment({
   const dispatch = useDispatch();
   function handleEdit() {
     setModalOpen(true);
-    dispatch(assignmentIdForEdit(id));
+    dispatch(editAssignment(id));
   }
   return (
     <tr>

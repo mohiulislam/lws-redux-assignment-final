@@ -22,7 +22,7 @@ export const assignmentApi = apiSlice.injectEndpoints({
     }),
     updateAssignment: builder.mutation({
       query: ({ id, data }) => ({
-        url: `/assignments/{id}$`,
+        url: `/assignments/${id}`,
         method: "PATCH",
         body: data,
       }),
