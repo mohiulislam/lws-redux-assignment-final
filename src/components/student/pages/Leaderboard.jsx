@@ -25,7 +25,6 @@ function Leaderboard() {
                   <th className="table-th !text-center">Total</th>
                 </tr>
               </thead>
-
               <tbody>
                 <ParticipantResult />
                 <ParticipantResult />

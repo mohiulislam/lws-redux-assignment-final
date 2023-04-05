@@ -34,7 +34,7 @@ function AssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
     <div className="absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  p-12  border-4 w-full max-w-xl border-blue-950 rounded-md bg-primary font-HindSiliguri">
       <AiOutlineClose
         onClick={() => setModalOpen(false)}
-        className="text-red.-500 text-2xl absolute top-0 m-4 right-0"
+        className="text-red-500 text-2xl absolute top-0 m-4 right-0"
       />
       <h1 className="text-2xl font-bold mb-6">
         <span className="text-cyan-400">এসাইনমেন্ট</span> জমা দিন
@@ -54,7 +54,7 @@ function AssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
         </label>
         <input
           onChange={(e) => setGitRepo(e.target.value)}
-          className="mt-2 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-60"
+          className="mt-2 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
           type="text"
           name=""
           id="gitRepoLink"

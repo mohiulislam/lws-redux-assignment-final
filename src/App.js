@@ -22,6 +22,7 @@ function App() {
         <Route path="/" element={<Login role="Student" />} />
 
         <Route path="/Quizzes/:videoId" element={<Quizzes />} />
+
         <Route path="/CoursePlayer/" element={<CoursePlayer />} />
         <Route path="/Leaderboard" element={<Leaderboard />} />
         <Route path="/Registration" element={<Registration />} />

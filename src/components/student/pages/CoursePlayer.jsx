@@ -18,7 +18,6 @@ function CoursePlayer() {
     isLoading: videosIsLoading,
     isError: videosIsError,
     error: videosError,
-    
   } = useGetVideosQuery();
 
   const [isModalOpen, setModalOpen] = useState(false);
@@ -28,7 +27,7 @@ function CoursePlayer() {
   }
 
   if (videosIsError && !videosIsLoading) {
-    return <Error message={videosError?.message||"server error"} />;
+    return <Error message={videosError?.message || "server error"} />;
   }
   if (videosIsLoading && !videosIsError && videos.length === 0) {
     return <NotFound desire="Videos" />;
@@ -65,12 +64,12 @@ function CoursePlayer() {
                     এসাইনমেন্ট
                   </button>
                   <div className=" ">
-                    {isModalOpen ? (
+                    {isModalOpen && (
                       <AssignmentModal
                         currentlyPlayingVideoId={currentlyPlayingVideoId}
                         setModalOpen={setModalOpen}
                       />
-                    ) : null}
+                    )}
                   </div>
                   <Link
                     to={`/Quizzes/${currentlyPlayingVideoId}`}
