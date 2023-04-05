@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetVideosQuery } from "../../../features/video/videoApi";
 
-import AssignmentModal from "../SubComponents/AssignmentModal";
+import SubmitAssignmentModal from "../SubComponents/SubmitAssignmentModal";
 import VideoList from "../SubComponents/VideoList";
 
 function CoursePlayer() {
@@ -65,7 +65,7 @@ function CoursePlayer() {
                   </button>
                   <div className=" ">
                     {isModalOpen && (
-                      <AssignmentModal
+                      <SubmitAssignmentModal
                         currentlyPlayingVideoId={currentlyPlayingVideoId}
                         setModalOpen={setModalOpen}
                       />

@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { useParams } from "react-router-dom";
 import { useGetAssignmentQuery } from "features/assignment/assignmentApi";
 import { useSubmitAssignmentMutation } from "features/assignmentMark/assignmentMark";
-import { useSelector } from "react-redux";
-import { selectCurrentlyPlayingVideoId } from "features/player/playerSelectors";
-function AssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
+
+function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
   const {
     data: assignment,
     isLoading: assignmentIsLoading,
@@ -71,4 +69,4 @@ function AssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
   );
 }
 
-export default AssignmentModal;
+export default SubmitAssignmentModal;

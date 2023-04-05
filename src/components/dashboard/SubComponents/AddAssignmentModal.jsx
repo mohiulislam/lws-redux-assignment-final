@@ -51,25 +51,29 @@ function AddAssignmentModal({ setModalOpen }) {
 
   const [
     addAssignment,
-    {
-      isLoading: addLoading,
-      isSuccess: addSuccess,
-      isError: addIsError,
-      error: addError,
-    },
+    // {
+    //   isLoading: addLoading,
+    //   isSuccess: addSuccess,
+    //   isError: addIsError,
+    //   error: addError,
+    // },
   ] = useAddAssignmentMutation();
   const [
     updateAssignment,
-    {
-      isLoading: updateLoading,
-      isSuccess: updateSuccess,
-      isError: updateIsError,
-      error: updateError,
-    },
+    // {
+    //   isLoading: updateLoading,
+    //   isSuccess: updateSuccess,
+    //   isError: updateIsError,
+    //   error: updateError,
+    // },
   ] = useUpdateAssignmentMutation();
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!title || !totalMark || !selectedVideoTitle || !selectedVideoId) {
+      alert("Please fill in all the required fields.");
+      return;
+    }
 
     !assignmentIdToEdit
       ? addAssignment({
