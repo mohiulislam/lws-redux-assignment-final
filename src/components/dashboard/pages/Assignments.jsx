@@ -39,10 +39,15 @@ function Assignments() {
       />
     ));
   }
-
   return (
     <MainLayout>
       <section className="py-6 bg-primary">
+        <i className="block text-center text-yellow-300 font-HindSiliguri">
+          অ্যাসাইনমেন্ট অ্যাড বা এডিট করার সময় ওপেন হাওয়া মডিউলে{" "}
+          <span className="text-cyan-400">“ভিডিও সিলেক্ট করুন”</span> অপশনে
+          সবগুলো ভিডিও নাও দেখাতে পারে। কারণ যে ভিডিওর জন্য অ্যাসাইনমেন্ট তৈরি
+          করা আছে সেই ভিডিও লিস্টে থাকা উচিত না।
+        </i>
         <div className="mx-auto max-w-full px-5 lg:px-20">
           <div className="px-3 py-20 bg-opacity-10">
             <div className="w-full flex">

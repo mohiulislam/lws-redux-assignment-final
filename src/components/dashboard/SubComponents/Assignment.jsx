@@ -1,3 +1,4 @@
+import { useDeleteAssignmentMutation } from "features/assignment/assignmentApi";
 import { editAssignment } from "features/assignment/assignmentSlice";
 import React from "react";
 import { useDispatch } from "react-redux";
@@ -6,10 +7,18 @@ function Assignment({
   setModalOpen,
   assignment: { id, title, video_title, totalMark, video_id },
 }) {
+  const [deleteAssignment, { isLoading, isError, error }] =
+    useDeleteAssignmentMutation();
   const dispatch = useDispatch();
   function handleEdit() {
     setModalOpen(true);
     dispatch(editAssignment(id));
+  }
+
+  function handleDelete() {
+    console.log(111);
+
+    deleteAssignment(id);
   }
   return (
     <tr>
@@ -18,6 +27,7 @@ function Assignment({
       <td className="table-td">{totalMark}</td>
       <td className="table-td flex gap-x-2">
         <svg
+          onClick={handleDelete}
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth="1.5"

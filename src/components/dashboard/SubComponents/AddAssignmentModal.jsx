@@ -145,7 +145,7 @@ function AddAssignmentModal({ setModalOpen }) {
           className="block selectOptionHeight-16 bg-blue-950 h-10 outline-none"
         >
           <option value="default" hidden>
-            Select an option
+          ভিডিও সিলেক্ট করুন
           </option>
           {!videosIsLoading &&
             !videosIsError &&
