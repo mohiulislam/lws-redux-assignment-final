@@ -19,6 +19,10 @@ function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!gitRepo) {
+      alert("Please fill in all the required fields.");
+      return;
+    }
     submitAssignment({
       repo_link: gitRepo,
       student_name: "mohiul",
