@@ -1,14 +1,27 @@
+import { useDeleteVideoMutation } from "features/video/videoApi";
 import React from "react";
 
-function Video({ video: { title, description } }) {
+function Video({
+  setModalOpen,
+  setVideoIdToEdit,
+  video: { id, title, description },
+}) {
+  function handleEdit() {
+    setModalOpen(true);
+    setVideoIdToEdit(id);
+  }
+
+  const [deleteVideo, { isLoading, isError, error }] = useDeleteVideoMutation();
+
   return (
     <tr>
       <td className="table-td">{title}</td>
       <td className="table-td">
-        {description.match(/^((?:\S+\s+){6})/)?.[1]}.....
+        {description?.match(/^(\w+\s+){0,5}\w+/)?.[0]}....
       </td>
       <td className="table-td flex gap-x-2">
         <svg
+          onClick={() => deleteVideo(id)}
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth="1.5"
@@ -22,6 +35,7 @@ function Video({ video: { title, description } }) {
           />
         </svg>
         <svg
+          onClick={handleEdit}
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth="1.5"

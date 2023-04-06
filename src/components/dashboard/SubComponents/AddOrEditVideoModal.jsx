@@ -1,19 +1,32 @@
-import { useAddVideoMutation } from "features/video/videoApi";
-import { selectVideoIdToEdit } from "features/video/videoSelectors";
-import { editVideo } from "features/video/videoSlice";
-import React, { useState } from "react";
+import {
+  useAddVideoMutation,
+  useGetVideosQuery,
+  useUpdateVideoMutation,
+} from "features/video/videoApi";
+import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
 
-function AddOrEditVideoModal({ setModalOpen }) {
-  const videoIdToEdit = useSelector(selectVideoIdToEdit);
+function AddOrEditVideoModal({
+  videoIdToEdit,
+  setVideoIdToEdit,
+  setModalOpen,
+}) {
   const [title, setTitle] = useState(null);
   const [description, setDescription] = useState(null);
   const [url, setUrl] = useState(null);
   const [duration, setDuration] = useState(null);
   const [views, setViews] = useState(null);
 
-  const dispatch = useDispatch();
+  const [
+    updateVideo,
+    // {
+    //   isLoading: updateLoading,
+    //   isSuccess: updateSuccess,
+    //   isError: updateIsError,
+    //   error: updateError,
+    // }
+  ] = useUpdateVideoMutation();
+
   const [
     addVideo,
     // {
@@ -21,25 +34,61 @@ function AddOrEditVideoModal({ setModalOpen }) {
     //   isSuccess: addSuccess,
     //   isError: addIsError,
     //   error: addError,
-    // },
+    // }
   ] = useAddVideoMutation();
+
   function handleModalClose() {
     setModalOpen(false);
-    dispatch(editVideo(null));
+    setVideoIdToEdit(null);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!title || !description || !url || !views || !duration) {
+      alert("Please fill in all the required fields.");
+      return;
+    }
+
     const currentDate = new Date();
-    addVideo({
-      title,
-      description,
-      url,
-      views,
-      duration,
-      createdAt: currentDate.toISOString(),
-    });
+    !videoIdToEdit
+      ? addVideo({
+          title,
+          description,
+          url,
+          views,
+          duration,
+          createdAt: currentDate.toISOString(),
+        })
+      : updateVideo({
+          id: videoIdToEdit,
+          data: {
+            title,
+            description,
+            url,
+            views,
+            duration,
+          },
+        });
   }
+
+  const {
+    data: videos,
+    // isLoading: videosIsLoading,
+    // isError: videosIsError,
+    // error: videosError,
+  } = useGetVideosQuery();
+
+  useEffect(() => {
+    if (videoIdToEdit) {
+      const videoToEdit = videos.find((video) => video.id === videoIdToEdit);
+      setTitle(videoToEdit?.title);
+      setDescription(videoToEdit?.description);
+      setUrl(videoToEdit?.url);
+      setViews(videoToEdit?.views);
+      setDuration(videoToEdit?.duration);
+    }
+  }, [videoIdToEdit, videos]);
+
   return (
     <div className=" absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  p-12  border-4 w-full max-w-xl border-blue-950 rounded-md bg-primary font-HindSiliguri">
       <AiOutlineClose
@@ -56,7 +105,7 @@ function AddOrEditVideoModal({ setModalOpen }) {
           ভিডিও টাইটেল <span className="text-red-500">*</span>
         </label>
         <input
-          required={true}
+          required
           className=" mb-6  mt-2 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
           type="text"
           name=""

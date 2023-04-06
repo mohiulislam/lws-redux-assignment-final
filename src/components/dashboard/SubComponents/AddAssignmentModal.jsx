@@ -58,7 +58,6 @@ function AddAssignmentModal({ setModalOpen }) {
       const assignmentToEdit = assignments.find(
         (assignment) => assignment.id === assignmentIdToEdit
       );
-      console.log(assignmentToEdit);
       setTitle(assignmentToEdit?.title?.match(/- (.*)/)?.[1]);
       setTotalMark(assignmentToEdit?.totalMark);
       setSelectedVideoTitle(assignmentToEdit?.video_title);

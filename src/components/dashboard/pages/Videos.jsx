@@ -17,6 +17,8 @@ function Videos() {
 
   const [isModalOpen, setModalOpen] = useState(false);
 
+  const [videoIdToEdit, setVideoIdToEdit] = useState(null);
+
   if (videosIsLoading) {
     return <Loader />;
   }
@@ -40,7 +42,11 @@ function Videos() {
                 Add Video
               </button>
               {isModalOpen && (
-                <AddOrEditVideoModal setModalOpen={setModalOpen} />
+                <AddOrEditVideoModal
+                  setVideoIdToEdit={setVideoIdToEdit}
+                  videoIdToEdit={videoIdToEdit}
+                  setModalOpen={setModalOpen}
+                />
               )}
             </div>
             <div className="overflow-x-auto mt-4">
@@ -55,7 +61,11 @@ function Videos() {
 
                 <tbody className="divide-y divide-slate-600/50">
                   {videos?.map((video) => (
-                    <Video video={video} />
+                    <Video
+                      setVideoIdToEdit={setVideoIdToEdit}
+                      setModalOpen={setModalOpen}
+                      video={video}
+                    />
                   ))}
                 </tbody>
               </table>

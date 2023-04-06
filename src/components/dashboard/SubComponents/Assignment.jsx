@@ -9,15 +9,15 @@ function Assignment({
 }) {
   const [deleteAssignment, { isLoading, isError, error }] =
     useDeleteAssignmentMutation();
+
   const dispatch = useDispatch();
+
   function handleEdit() {
     setModalOpen(true);
     dispatch(editAssignment(id));
   }
 
   function handleDelete() {
-    console.log(111);
-
     deleteAssignment(id);
   }
   return (
