@@ -1,15 +1,47 @@
-import React from "react";
+import Error from "components/common/Error";
+import Loader from "components/common/Loader";
+import NotFound from "components/common/NotFound";
+import { useGetVideosQuery } from "features/video/videoApi";
+import React, { useState } from "react";
 import MainLayout from "../../layouts/MainLayout";
+import AddOrEditVideoModal from "../SubComponents/AddOrEditVideoModal";
 import Video from "../SubComponents/Video";
 
 function Videos() {
+  const {
+    data: videos,
+    isLoading: videosIsLoading,
+    isError: videosIsError,
+    error: videosError,
+  } = useGetVideosQuery();
+
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  if (videosIsLoading) {
+    return <Loader />;
+  }
+
+  if (videosIsError && !videosIsLoading) {
+    return <Error message={videosError?.message || "server error"} />;
+  }
+  if (videosIsLoading && !videosIsError && videos.length === 0) {
+    return <NotFound desire="Videos" />;
+  }
   return (
     <MainLayout>
       <section className="py-6 bg-primary">
         <div className="mx-auto max-w-full px-5 lg:px-20">
           <div className="px-3 py-20 bg-opacity-10">
             <div className="w-full flex">
-              <button className="btn ml-auto">Add Video</button>
+              <button
+                onClick={() => setModalOpen(true)}
+                className="btn ml-auto"
+              >
+                Add Video
+              </button>
+              {isModalOpen && (
+                <AddOrEditVideoModal setModalOpen={setModalOpen} />
+              )}
             </div>
             <div className="overflow-x-auto mt-4">
               <table className="divide-y-1 text-base divide-gray-600 w-full">
@@ -22,10 +54,9 @@ function Videos() {
                 </thead>
 
                 <tbody className="divide-y divide-slate-600/50">
-                  <Video />
-                  <Video />
-                  <Video />
-                  <Video />
+                  {videos?.map((video) => (
+                    <Video video={video} />
+                  ))}
                 </tbody>
               </table>
             </div>

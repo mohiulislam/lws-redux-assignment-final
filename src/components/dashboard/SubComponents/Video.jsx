@@ -1,13 +1,12 @@
 import React from "react";
 
-function Video() {
+function Video({ video: { title, description } }) {
   return (
     <tr>
+      <td className="table-td">{title}</td>
       <td className="table-td">
-        Lesson 4 - Explicit &amp; Union Types - TypeScript Bangla ( বাংলা )
-        Tutorial Series
+        {description.match(/^((?:\S+\s+){6})/)?.[1]}.....
       </td>
-      <td className="table-td">This is the 4th video of this...</td>
       <td className="table-td flex gap-x-2">
         <svg
           fill="none"

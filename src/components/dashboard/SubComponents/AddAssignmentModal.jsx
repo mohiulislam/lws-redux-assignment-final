@@ -27,7 +27,6 @@ function AddAssignmentModal({ setModalOpen }) {
     isLoading: videosIsLoading,
     isError: videosIsError,
   } = useGetVideosQuery();
-  console.log(selectedVideoId);
 
   const {
     data: assignments,
@@ -35,6 +34,24 @@ function AddAssignmentModal({ setModalOpen }) {
     // isError: assignmentsIsError,
     // error: assignmentsError,
   } = useGetAssignmentsQuery();
+  const [
+    updateAssignment,
+    // {
+    //   isLoading: updateLoading,
+    //   isSuccess: updateSuccess,
+    //   isError: updateIsError,
+    //   error: updateError,
+    // },
+  ] = useUpdateAssignmentMutation();
+  const [
+    addAssignment,
+    // {
+    //   isLoading: addLoading,
+    //   isSuccess: addSuccess,
+    //   isError: addIsError,
+    //   error: addError,
+    // },
+  ] = useAddAssignmentMutation();
 
   useEffect(() => {
     if (assignmentIdToEdit) {
@@ -48,25 +65,6 @@ function AddAssignmentModal({ setModalOpen }) {
       setSelectedVideoId(assignmentToEdit?.video_id);
     }
   }, [assignmentIdToEdit, assignments]);
-
-  const [
-    addAssignment,
-    // {
-    //   isLoading: addLoading,
-    //   isSuccess: addSuccess,
-    //   isError: addIsError,
-    //   error: addError,
-    // },
-  ] = useAddAssignmentMutation();
-  const [
-    updateAssignment,
-    // {
-    //   isLoading: updateLoading,
-    //   isSuccess: updateSuccess,
-    //   isError: updateIsError,
-    //   error: updateError,
-    // },
-  ] = useUpdateAssignmentMutation();
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -109,12 +107,12 @@ function AddAssignmentModal({ setModalOpen }) {
         className="text-red-500 text-2xl absolute top-0 m-4 right-0"
       />
       <h1 className="text-2xl font-bold mb-6">
-        <span className="text-cyan-400">এসাইনমেন্ট</span>{" "}
+        <span className="text-cyan-400">এসাইনমেন্ট</span>
         {assignmentIdToEdit ? "এডিট" : "তৈরি"} করুন
       </h1>
 
       <form className="mt-10">
-        <label className="block" htmlFor="gitRepoLink">
+        <label className="block" htmlFor="title">
           এসাইনমেন্ট টাইটেল <span className="text-red-500">*</span>
         </label>
         <input
@@ -122,11 +120,11 @@ function AddAssignmentModal({ setModalOpen }) {
           className=" mb-6  mt-2 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
           type="text"
           name=""
-          id="gitRepoLink"
+          id="title"
           onChange={(e) => setTitle(e.target.value)}
           value={title}
         />
-        <label className="block" htmlFor="gitRepoLink">
+        <label className="block" htmlFor="totalMark">
           সর্বমোট নম্বর <span className="text-red-500">*</span>
         </label>
         <input
@@ -135,7 +133,7 @@ function AddAssignmentModal({ setModalOpen }) {
           className="mt-2 mb-6 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
           type="number"
           name=""
-          id="gitRepoLink"
+          id="totalMark"
           onChange={(e) => setTotalMark(parseFloat(e.target.value))}
         />
         <select
@@ -145,7 +143,7 @@ function AddAssignmentModal({ setModalOpen }) {
           className="block selectOptionHeight-16 bg-blue-950 h-10 outline-none"
         >
           <option value="default" hidden>
-          ভিডিও সিলেক্ট করুন
+            ভিডিও সিলেক্ট করুন
           </option>
           {!videosIsLoading &&
             !videosIsError &&
