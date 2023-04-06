@@ -3,7 +3,7 @@ import Loader from "components/common/Loader";
 import NotFound from "components/common/NotFound";
 import MainLayout from "components/layouts/MainLayout";
 import { selectCurrentlyPlayingVideoId } from "features/player/playerSelectors";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useGetVideosQuery } from "../../../features/video/videoApi";
@@ -19,6 +19,19 @@ function CoursePlayer() {
     isError: videosIsError,
     error: videosError,
   } = useGetVideosQuery();
+  
+  const [createdAt, setCreatedAt] = useState("");
+  useEffect(() => {
+    if (videos) {
+      const date = new Date(videos[currentlyPlayingVideoId - 1]?.createdAt);
+      const formattedDate = date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+      setCreatedAt(formattedDate);
+    }
+  }, [videos, currentlyPlayingVideoId]);
 
   const [isModalOpen, setModalOpen] = useState(false);
 
@@ -42,7 +55,7 @@ function CoursePlayer() {
               <iframe
                 width="100%"
                 className="aspect-video"
-                src={videos ? videos[currentlyPlayingVideoId - 1].url : null}
+                src={videos && videos[currentlyPlayingVideoId - 1].url}
                 title="Things I wish I knew as a Junior Web Developer - Sumit Saha - BASIS SoftExpo 2023"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -51,10 +64,10 @@ function CoursePlayer() {
 
               <div>
                 <h1 className="text-lg font-semibold tracking-tight text-slate-100">
-                  {videos ? videos[currentlyPlayingVideoId - 1].title : null}
+                  {videos && videos[currentlyPlayingVideoId - 1]?.title}
                 </h1>
                 <h2 className="pb-4 text-sm leading-[1.7142857] text-slate-400">
-                  Uploaded on 23 February 2020
+                  Uploaded on {createdAt}
                 </h2>
                 <div className="flex gap-4">
                   <button
@@ -63,14 +76,12 @@ function CoursePlayer() {
                   >
                     এসাইনমেন্ট
                   </button>
-                  <div className=" ">
-                    {isModalOpen && (
-                      <SubmitAssignmentModal
-                        currentlyPlayingVideoId={currentlyPlayingVideoId}
-                        setModalOpen={setModalOpen}
-                      />
-                    )}
-                  </div>
+                  {isModalOpen && (
+                    <SubmitAssignmentModal
+                      currentlyPlayingVideoId={currentlyPlayingVideoId}
+                      setModalOpen={setModalOpen}
+                    />
+                  )}
                   <Link
                     to={`/Quizzes/${currentlyPlayingVideoId}`}
                     className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"
