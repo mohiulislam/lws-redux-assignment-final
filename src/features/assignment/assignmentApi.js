@@ -51,7 +51,7 @@ export const assignmentApi = apiSlice.injectEndpoints({
               undefined,
               (draft) => {
                 const assignmentIndex = draft.findIndex(
-                  (assignments) => assignments.id === updatedAssignment.id
+                  (assignment) => assignment.id === updatedAssignment.id
                 );
                 if (assignmentIndex !== -1) {
                   draft[assignmentIndex] = updatedAssignment;
