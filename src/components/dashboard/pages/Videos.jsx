@@ -36,6 +36,7 @@ function Videos() {
 
     content = videos?.map((video) => (
       <Video
+        key={video.id}
         setVideoIdToEdit={setVideoIdToEdit}
         setModalOpen={setModalOpen}
         video={video || {}}

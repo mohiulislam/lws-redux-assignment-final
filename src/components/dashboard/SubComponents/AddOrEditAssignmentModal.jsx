@@ -13,14 +13,14 @@ function AddAssignmentModal({
   setAssignmentIdToEdit,
   setModalOpen,
 }) {
-  const [title, setTitle] = useState(null);
+  const [title, setTitle] = useState("");
 
-  const [totalMark, setTotalMark] = useState(null);
+  const [totalMark, setTotalMark] = useState("");
 
-  const [selectedVideoTitle, setSelectedVideoTitle] = useState(null);
+  const [selectedVideoTitle, setSelectedVideoTitle] = useState("");
 
-  const [selectedVideoId, setSelectedVideoId] = useState(null);
-  const dispatch = useDispatch();
+  const [selectedVideoId, setSelectedVideoId] = useState("");
+
   const {
     data: videos,
     isLoading: videosIsLoading,
@@ -64,13 +64,13 @@ function AddAssignmentModal({
     }
   }, [assignmentIdToEdit, assignments]);
 
+
   function handleSubmit(e) {
     e.preventDefault();
     if (!title || !totalMark || !selectedVideoTitle || !selectedVideoId) {
       alert("Please fill in all the required fields.");
       return;
     }
-
     !assignmentIdToEdit
       ? addAssignment({
           title: `Assignment ${assignments.length + 1} - ${title}`,

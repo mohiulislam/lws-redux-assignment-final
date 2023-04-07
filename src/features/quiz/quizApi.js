@@ -4,7 +4,7 @@ export const quizApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getQuizzes: builder.query({
       query: (videoId) => ({
-        url: `/quizzes?video_id=${videoId}`,
+        url: `/quizzes`,
         method: "GET",
       }),
     }),

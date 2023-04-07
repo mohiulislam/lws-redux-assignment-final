@@ -17,7 +17,7 @@ function Video({
     <tr>
       <td className="table-td">{title}</td>
       <td className="table-td">
-        {description?.match(/^(\w+\s+){0,5}\w+/)?.[0]}....
+        {description?.trim()?.match(/^(\S+\s+){0,6}\S+/)[0]}....
       </td>
       <td className="table-td flex gap-x-2">
         <svg

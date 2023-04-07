@@ -1,11 +1,21 @@
 import React from "react";
 
-function Quiz() {
+function Quiz({
+  setModalOpen,
+  setQuizIdToEdit,
+  quiz: { id, question, video_title },
+}) {
+  function handleEdit() {
+    setModalOpen(true);
+    setQuizIdToEdit(id);
+  }
+  console.log(id);
+
   return (
     <tr>
-      <td className="table-td">Quiz 1 - JavaScript Interview Questions</td>
+      <td className="table-td">{question}</td>
       <td className="table-td">
-        Debounce Function in JavaScript - JavaScript Job...
+        {video_title?.trim()?.match(/^(\S+\s+){0,6}\S+/)[0]}....
       </td>
       <td className="table-td flex gap-x-2 justify-center">
         <svg
@@ -22,6 +32,7 @@ function Quiz() {
           />
         </svg>
         <svg
+          onClick={handleEdit}
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth="1.5"
