@@ -100,9 +100,6 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
   useEffect(() => {
     if (quizIdToEdit) {
       const quizToEdit = quizzes.find((quiz) => quiz.id === quizIdToEdit);
-
-      console.log(quizToEdit?.video_title);
-
       setQuestion(quizToEdit?.question);
       setOption_1(quizToEdit?.options?.[0]?.option);
       setOption_2(quizToEdit?.options?.[1]?.option);
@@ -255,7 +252,6 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
             !videosIsError &&
             videos?.length > 0 &&
             videos?.map((video) => {
-              console.log(video.title);
               return (
                 <option key={video.id} data-id={video.id} value={video.title}>
                   {video.title?.trim()?.match(/^(\S+\s+){0,7}\S+/)[0]}...

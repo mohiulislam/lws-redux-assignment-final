@@ -6,7 +6,6 @@ import {
 import { useGetVideosQuery } from "features/video/videoApi";
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { useDispatch } from "react-redux";
 
 function AddAssignmentModal({
   assignmentIdToEdit,

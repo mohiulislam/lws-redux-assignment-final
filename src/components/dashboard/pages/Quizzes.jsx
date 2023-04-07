@@ -18,8 +18,6 @@ function Quizzes() {
   const [isModalOpen, setModalOpen] = useState(false);
 
   const [quizIdToEdit, setQuizIdToEdit] = useState(null);
-  console.log(quizIdToEdit);
-
   let content;
   if (quizzesIsLoading) {
     content = <Loader />;

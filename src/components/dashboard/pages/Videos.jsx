@@ -32,8 +32,6 @@ function Videos() {
   }
 
   if (!videosIsLoading && !videosIsError && videos?.length > 0) {
-    console.log(111);
-
     content = videos?.map((video) => (
       <Video
         key={video.id}

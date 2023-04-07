@@ -49,8 +49,6 @@ function AssignmentMarks() {
 
   useEffect(() => {
     if (assignmentMarks?.length) {
-      console.log(assignmentMarks?.length);
-
       setPending(
         assignmentMarks.reduce(
           (acc, cur) => (cur?.status === "pending" ? acc + 1 : acc),
