@@ -1,4 +1,8 @@
-import { useAddQuizMutation, useGetQuizzesQuery } from "features/quiz/quizApi";
+import {
+  useAddQuizMutation,
+  useEditQuizMutation,
+  useGetQuizzesQuery,
+} from "features/quiz/quizApi";
 import { useGetVideosQuery } from "features/video/videoApi";
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
@@ -19,7 +23,23 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
 
   const [selectedVideoTitle, setSelectedVideoTitle] = useState("");
 
-  const [addQuiz, { isLoading, isError, error }] = useAddQuizMutation();
+  const [
+    addQuiz,
+    {
+      isLoading: isAddQuizLoading,
+      isError: isAddQuizError,
+      error: addQuizError,
+    },
+  ] = useAddQuizMutation();
+  const [
+    editQuiz,
+    {
+      isLoading: isEditQuizLoading,
+      isError: isEditQuizError,
+      error: editQuizError,
+    },
+  ] = useEditQuizMutation();
+
   const {
     data: videos,
     isLoading: videosIsLoading,
@@ -38,9 +58,32 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    addQuiz({
-      question,
-    });
+    !quizIdToEdit
+      ? addQuiz({
+          question,
+          video_id: selectedVideoId,
+          video_title: selectedVideoTitle,
+          options: [
+            { id: 1, option: option_1, isCorrect: option_1_checked },
+            { id: 2, option: option_2, isCorrect: option_2_checked },
+            { id: 3, option: option_3, isCorrect: option_3_checked },
+            { id: 4, option: option_4, isCorrect: option_4_checked },
+          ],
+        })
+      : editQuiz({
+          id: quizIdToEdit,
+          data: {
+            question,
+            video_id: selectedVideoId,
+            video_title: selectedVideoTitle,
+            options: [
+              { id: 1, option: option_1, isCorrect: option_1_checked },
+              { id: 2, option: option_2, isCorrect: option_2_checked },
+              { id: 3, option: option_3, isCorrect: option_3_checked },
+              { id: 4, option: option_4, isCorrect: option_4_checked },
+            ],
+          },
+        });
   }
   function handleSelectVideoOnchange(e) {
     setSelectedVideoTitle(e.target.value);
@@ -71,7 +114,7 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
   }, [quizIdToEdit, quizzes]);
 
   return (
-    <div className=" absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  p-12  border-4 w-full max-w-xl border-blue-950 rounded-md bg-primary font-HindSiliguri">
+    <div className=" absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  p-12  border-4 w-full max-w-xl border-blue-950 rounded-md bg-primary font-HindSiliguri py-5">
       <AiOutlineClose
         onClick={handleModalClose}
         className="text-red-500 text-2xl absolute top-0 m-4 right-0"

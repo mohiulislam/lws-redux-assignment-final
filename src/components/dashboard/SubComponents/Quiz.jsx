@@ -1,3 +1,4 @@
+import { useDeleteQuizMutation } from "features/quiz/quizApi";
 import React from "react";
 
 function Quiz({
@@ -9,8 +10,12 @@ function Quiz({
     setModalOpen(true);
     setQuizIdToEdit(id);
   }
-  console.log(id);
 
+  const [deleteQuiz, { isLoading, isError, error }] = useDeleteQuizMutation();
+
+  function handleDelete() {
+    deleteQuiz(id);
+  }
   return (
     <tr>
       <td className="table-td">{question}</td>
@@ -19,6 +24,7 @@ function Quiz({
       </td>
       <td className="table-td flex gap-x-2 justify-center">
         <svg
+          onClick={handleDelete}
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth="1.5"
