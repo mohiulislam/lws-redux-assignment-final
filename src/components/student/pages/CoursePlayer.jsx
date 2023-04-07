@@ -43,7 +43,7 @@ function CoursePlayer() {
     return <Error message={videosError?.message || "server error"} />;
   }
   if (videosIsLoading && !videosIsError && videos.length === 0) {
-    return <NotFound desire="Videos" />;
+    return <NotFound desire="video" />;
   }
 
   return (
