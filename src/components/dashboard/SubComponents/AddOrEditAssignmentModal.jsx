@@ -64,7 +64,6 @@ function AddAssignmentModal({
     }
   }, [assignmentIdToEdit, assignments]);
 
-
   function handleSubmit(e) {
     e.preventDefault();
     if (!title || !totalMark || !selectedVideoTitle || !selectedVideoId) {
@@ -98,7 +97,7 @@ function AddAssignmentModal({
 
   function handleModalClose() {
     setModalOpen(false);
-    setAssignmentIdToEdit(null)
+    setAssignmentIdToEdit(null);
   }
 
   return (
@@ -111,13 +110,12 @@ function AddAssignmentModal({
         <span className="text-cyan-400">এসাইনমেন্ট</span>
         {assignmentIdToEdit ? "এডিট" : "তৈরি"} করুন
       </h1>
-
       <form className="mt-10">
         <label className="block" htmlFor="title">
           এসাইনমেন্ট টাইটেল <span className="text-red-500">*</span>
         </label>
         <input
-          required={true}
+          required
           className=" mb-6  mt-2 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
           type="text"
           name=""
@@ -141,7 +139,7 @@ function AddAssignmentModal({
           required
           onChange={handleSelectVideoOnchange}
           value={selectedVideoTitle}
-          className="block selectOptionHeight-16 bg-blue-950 h-10 outline-none"
+          className="block w-full selectOptionHeight-16 bg-blue-950 h-10 outline-none"
         >
           <option value="default" hidden>
             ভিডিও সিলেক্ট করুন
@@ -158,7 +156,7 @@ function AddAssignmentModal({
               )
               .map((video) => (
                 <option key={video.id} data-id={video.id} value={video.title}>
-                  {video.title}
+                  {video.title?.trim()?.match(/^(\S+\s+){0,7}\S+/)[0]}...
                 </option>
               ))}
         </select>

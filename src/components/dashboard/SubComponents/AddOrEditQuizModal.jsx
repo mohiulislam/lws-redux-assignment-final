@@ -45,6 +45,7 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
     isLoading: videosIsLoading,
     isError: videosIsError,
   } = useGetVideosQuery();
+
   function handleModalClose() {
     setModalOpen(false);
     setQuizIdToEdit(null);
@@ -57,6 +58,11 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
   } = useGetQuizzesQuery();
 
   function handleSubmit(e) {
+    if (!question || !option_1 || !option_2 || !option_3) {
+      alert("Please fill required field");
+      return;
+    }
+
     e.preventDefault();
     !quizIdToEdit
       ? addQuiz({
@@ -92,8 +98,6 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
     );
   }
   useEffect(() => {
-    console.log(quizIdToEdit);
-
     if (quizIdToEdit) {
       const quizToEdit = quizzes.find((quiz) => quiz.id === quizIdToEdit);
 
@@ -123,7 +127,7 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
         <span className="text-cyan-400">কুইজ </span>
         {quizIdToEdit ? "এডিট" : "তৈরি"} করুন
       </h1>
-
+      <p className="text-yellow-400">সঠিক উত্তরের টিক চিহ্ন দিন।</p>
       <form className="mt-10">
         <label className="block" htmlFor="question">
           প্রশ্ন<span className="text-red-500">*</span>
@@ -140,7 +144,6 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
 
         <div className="flex">
           <input
-            required
             type="checkbox"
             id="option_1_checkbox"
             name="option_1_checkbox"
@@ -156,7 +159,7 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
             <input
               required
               value={option_1}
-              className=" mt-2 mb-6 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
+              className=" mb-4 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
               type="text"
               name=""
               id="option_1"
@@ -166,7 +169,6 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
         </div>
         <div className="flex">
           <input
-            required
             type="checkbox"
             id="option_2_checkbox"
             name="option_2_checkbox"
@@ -182,7 +184,7 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
             <input
               required
               value={option_2}
-              className="mt-2 mb-6 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
+              className="mb-4 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
               type="text"
               name=""
               id="option_2"
@@ -192,7 +194,6 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
         </div>
         <div className="flex">
           <input
-            required
             type="checkbox"
             id="option_3_checkbox"
             name="option_3_checkbox"
@@ -208,7 +209,7 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
             <input
               required
               value={option_3}
-              className="mt-2 mb-6 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
+              className="mb-6 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
               type="text"
               name=""
               id="option_3"
@@ -218,7 +219,6 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
         </div>
         <div className="flex">
           <input
-            required
             type="checkbox"
             id="option_4_checkbox"
             name="option_4_checkbox"
@@ -234,7 +234,7 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
             <input
               required
               value={option_4}
-              className="mt-2 mb-6 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
+              className="mb-6 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
               type="text"
               name=""
               id="option_4"
@@ -246,7 +246,7 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
           required
           onChange={handleSelectVideoOnchange}
           value={selectedVideoTitle}
-          className="block selectOptionHeight-16 bg-blue-950 h-10 outline-none"
+          className="block w-full selectOptionHeight-16 bg-blue-950 h-10 outline-none"
         >
           <option value="default" hidden>
             ভিডিও সিলেক্ট করুন
@@ -258,13 +258,13 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
               console.log(video.title);
               return (
                 <option key={video.id} data-id={video.id} value={video.title}>
-                  {video.title}
+                  {video.title?.trim()?.match(/^(\S+\s+){0,7}\S+/)[0]}...
                 </option>
               );
             })}
         </select>
         <button
-          className=" mt-10 block from-cyan-500 bg-gradient-to-r to-blue-500 rounded-md p-2"
+          className=" mt-8 block from-cyan-500 bg-gradient-to-r to-blue-500 rounded-md p-2"
           type="submit"
           onClick={handleSubmit}
         >
