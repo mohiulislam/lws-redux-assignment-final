@@ -3,17 +3,16 @@ import {
   useGetAssignmentsQuery,
   useUpdateAssignmentMutation,
 } from "features/assignment/assignmentApi";
-import { selectAssignmentIdToEdit } from "features/assignment/assignmentSelectors";
-
-import { editAssignment } from "features/assignment/assignmentSlice";
 import { useGetVideosQuery } from "features/video/videoApi";
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-function AddAssignmentModal({ setModalOpen }) {
-  const assignmentIdToEdit = useSelector(selectAssignmentIdToEdit);
-
+function AddAssignmentModal({
+  assignmentIdToEdit,
+  setAssignmentIdToEdit,
+  setModalOpen,
+}) {
   const [title, setTitle] = useState(null);
 
   const [totalMark, setTotalMark] = useState(null);
@@ -89,16 +88,19 @@ function AddAssignmentModal({ setModalOpen }) {
           },
         });
   }
+
   function handleSelectVideoOnchange(e) {
     setSelectedVideoTitle(e.target.value);
     setSelectedVideoId(
       parseFloat(e.target.selectedOptions[0].getAttribute("data-id"))
     );
   }
+
   function handleModalClose() {
     setModalOpen(false);
-    dispatch(editAssignment(null));
+    setAssignmentIdToEdit(null)
   }
+
   return (
     <div className=" absolute right-1/2 translate-x-1/2 bottom-1/2 translate-y-1/2  p-12  border-4 w-full max-w-xl border-blue-950 rounded-md bg-primary font-HindSiliguri">
       <AiOutlineClose

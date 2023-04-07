@@ -4,7 +4,7 @@ import NotFound from "components/common/NotFound";
 import { useGetAssignmentsQuery } from "features/assignment/assignmentApi";
 import React, { useState } from "react";
 import MainLayout from "../../layouts/MainLayout";
-import AddAssignmentModal from "../SubComponents/AddAssignmentModal";
+import AddOrEditAssignmentModal from "../SubComponents/AddOrEditAssignmentModal";
 import Assignment from "../SubComponents/Assignment";
 
 function Assignments() {
@@ -14,6 +14,8 @@ function Assignments() {
     isError: assignmentsIsError,
     error: assignmentsError,
   } = useGetAssignmentsQuery();
+
+  const [assignmentIdToEdit, setAssignmentIdToEdit] = useState(null);
 
   let content;
   if (assignmentsIsLoading) {
@@ -33,6 +35,7 @@ function Assignments() {
   if (!assignmentsIsLoading && !assignmentsIsError && assignments.length > 0) {
     content = assignments.map((assignment) => (
       <Assignment
+        setAssignmentIdToEdit={setAssignmentIdToEdit}
         setModalOpen={setModalOpen}
         key={assignment?.id}
         assignment={assignment || {}}
@@ -44,7 +47,7 @@ function Assignments() {
       <section className="py-6 bg-primary">
         <i className="block text-center text-yellow-300 font-HindSiliguri">
           অ্যাসাইনমেন্ট অ্যাড বা এডিট করার সময় ওপেন হাওয়া মডিউলে
-          <span className="text-cyan-400">“ভিডিও সিলেক্ট করুন”</span> অপশনে
+          <span className="text-cyan-400">“ভিডিও সিলেক্ট করুন”</span> লিস্টে
           সবগুলো ভিডিও নাও দেখাতে পারে। কারণ যে ভিডিওর জন্য অ্যাসাইনমেন্ট তৈরি
           করা আছে সেই ভিডিও লিস্টে থাকা উচিত না।
         </i>
@@ -58,7 +61,13 @@ function Assignments() {
                 Add Assignment
               </button>
             </div>
-            {isModalOpen && <AddAssignmentModal setModalOpen={setModalOpen} />}
+            {isModalOpen && (
+              <AddOrEditAssignmentModal
+                setAssignmentIdToEdit={setAssignmentIdToEdit}
+                assignmentIdToEdit={assignmentIdToEdit}
+                setModalOpen={setModalOpen}
+              />
+            )}
             <div className="overflow-x-auto mt-4">
               <table className="divide-y-1 text-base divide-gray-600 w-full">
                 <thead>

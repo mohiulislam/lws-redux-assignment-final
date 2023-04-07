@@ -19,15 +19,28 @@ function Videos() {
 
   const [videoIdToEdit, setVideoIdToEdit] = useState(null);
 
+  let content;
   if (videosIsLoading) {
-    return <Loader />;
+    content = <Loader />;
   }
 
   if (videosIsError && !videosIsLoading) {
-    return <Error message={videosError?.message || "server error"} />;
+    content = <Error message={videosError?.message || "server error"} />;
   }
-  if (videosIsLoading && !videosIsError && videos.length === 0) {
-    return <NotFound desire="Videos" />;
+  if (!videosIsLoading && !videosIsError && videos?.length === 0) {
+    content = <NotFound desire="Videos" />;
+  }
+
+  if (!videosIsLoading && !videosIsError && videos?.length > 0) {
+    console.log(111);
+
+    content = videos?.map((video) => (
+      <Video
+        setVideoIdToEdit={setVideoIdToEdit}
+        setModalOpen={setModalOpen}
+        video={video || {}}
+      />
+    ));
   }
   return (
     <MainLayout>
@@ -60,13 +73,7 @@ function Videos() {
                 </thead>
 
                 <tbody className="divide-y divide-slate-600/50">
-                  {videos?.map((video) => (
-                    <Video
-                      setVideoIdToEdit={setVideoIdToEdit}
-                      setModalOpen={setModalOpen}
-                      video={video}
-                    />
-                  ))}
+                  {content}
                 </tbody>
               </table>
             </div>

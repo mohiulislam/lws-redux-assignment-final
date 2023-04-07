@@ -1,20 +1,17 @@
 import { useDeleteAssignmentMutation } from "features/assignment/assignmentApi";
-import { editAssignment } from "features/assignment/assignmentSlice";
 import React from "react";
-import { useDispatch } from "react-redux";
 
 function Assignment({
+  setAssignmentIdToEdit,
   setModalOpen,
   assignment: { id, title, video_title, totalMark, video_id },
 }) {
   const [deleteAssignment, { isLoading, isError, error }] =
     useDeleteAssignmentMutation();
 
-  const dispatch = useDispatch();
-
   function handleEdit() {
     setModalOpen(true);
-    dispatch(editAssignment(id));
+    setAssignmentIdToEdit(id);
   }
 
   function handleDelete() {

@@ -6,7 +6,7 @@ function Quiz({ quiz }) {
   return (
     <div className="quiz">
       <h4 className="question">{quiz?.question}</h4>
-      <form className="quizOptions">
+      <div className="quizOptions">
         {quiz &&
           options.map((option) => (
             <QuizOption
@@ -15,7 +15,7 @@ function Quiz({ quiz }) {
               key={Math.random()}
             />
           ))}
-      </form>
+      </div>
     </div>
   );
 }

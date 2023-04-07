@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { useGetAssignmentQuery } from "features/assignment/assignmentApi";
-import { useSubmitAssignmentMutation } from "features/assignmentMark/assignmentMark";
+import { useSubmitAssignmentMutation } from "features/assignmentMark/assignmentMarkApi";
+import { useSelector } from "react-redux";
+import { selectAuth } from "features/auth/authSelector";
 
 function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
   const {
@@ -10,9 +12,11 @@ function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
     isError: assignmentIsError,
   } = useGetAssignmentQuery(currentlyPlayingVideoId);
 
+  const auth = useSelector(selectAuth);
+
   const [{ title, id, totalMark }] = assignment || [{}];
 
-  const [submitAssignment, { isLoading, isError, error }] =
+  const [submitAssignment, { isLoading, isSuccess, isError, error }] =
     useSubmitAssignmentMutation();
 
   const [gitRepo, setGitRepo] = useState();
@@ -23,12 +27,15 @@ function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
       alert("Please fill in all the required fields.");
       return;
     }
+    const currentDate = new Date().toISOString();
     submitAssignment({
       repo_link: gitRepo,
-      student_name: "mohiul",
+      student_name: auth?.user?.name,
       assignment_id: id,
       student_id: 100,
-      createdAt: "12-12-12",
+      status: "pending",
+      createdAt: currentDate,
+      title,
     });
   }
 

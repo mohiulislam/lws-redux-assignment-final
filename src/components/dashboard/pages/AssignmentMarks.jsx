@@ -1,8 +1,65 @@
-import React from "react";
+import Error from "components/common/Error";
+import Loader from "components/common/Loader";
+import NotFound from "components/common/NotFound";
+import { useGetAssignmentMarksQuery } from "features/assignmentMark/assignmentMarkApi";
+import React, { useEffect, useState } from "react";
 import MainLayout from "../../layouts/MainLayout";
 import AssignmentMark from "../SubComponents/AssignmentMark";
 
 function AssignmentMarks() {
+  const {
+    data: assignmentMarks,
+    isLoading: assignmentMarksIsLoading,
+    isError: assignmentMarksIsError,
+    error: assignmentMarksError,
+  } = useGetAssignmentMarksQuery();
+
+  let content;
+
+  if (assignmentMarksIsLoading) {
+    content = <Loader />;
+  }
+
+  if (assignmentMarksIsError && !assignmentMarksIsLoading) {
+    content = (
+      <Error message={assignmentMarksError?.message || "server error"} />
+    );
+  }
+  if (
+    !assignmentMarksIsLoading &&
+    !assignmentMarksIsError &&
+    assignmentMarks?.length === 0
+  ) {
+    content = <NotFound desire="assignmentMark" />;
+  }
+
+  if (
+    !assignmentMarksIsLoading &&
+    !assignmentMarksIsError &&
+    assignmentMarks?.length > 0
+  ) {
+    content = assignmentMarks?.map((assignmentMark) => (
+      <AssignmentMark assignmentMark={assignmentMark || {}} />
+    ));
+  }
+
+  const [pending, setPending] = useState();
+
+  const [markSent, setMarkSent] = useState();
+
+  useEffect(() => {
+    if (assignmentMarks?.length) {
+      console.log(assignmentMarks?.length);
+
+      setPending(
+        assignmentMarks.reduce(
+          (acc, cur) => (cur?.status === "pending" ? acc + 1 : acc),
+          0
+        )
+      );
+    }
+  }, [assignmentMarks]);
+
   return (
     <MainLayout>
       <section className="py-6 bg-primary">
@@ -10,13 +67,13 @@ function AssignmentMarks() {
           <div className="px-3 py-20 bg-opacity-10">
             <ul className="assignment-status">
               <li>
-                Total <span>4</span>
+                Total <span>{assignmentMarks?.length}</span>
               </li>
               <li>
-                Pending <span>3</span>
+                Pending<span>{pending}</span>
               </li>
               <li>
-                Mark Sent <span>1</span>
+                Mark Sent <span>{assignmentMarks?.length - pending}</span>
               </li>
             </ul>
             <div className="overflow-x-auto mt-4">
@@ -30,13 +87,8 @@ function AssignmentMarks() {
                     <th className="table-th">Mark</th>
                   </tr>
                 </thead>
-
                 <tbody className="divide-y divide-slate-600/50">
-                  <AssignmentMark />
-                  <AssignmentMark />
-                  <AssignmentMark />
-                  <AssignmentMark />
-                  <AssignmentMark />
+                  {content}
                 </tbody>
               </table>
             </div>
