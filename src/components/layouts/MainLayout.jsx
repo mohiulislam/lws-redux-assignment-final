@@ -1,6 +1,14 @@
+import { userLoggedOut } from "features/auth/authSlice";
 import React, { Fragment } from "react";
+import { useDispatch } from "react-redux";
 import Logo from "../../assets/image/learningportal.svg";
 function MainLayout({ children }) {
+  const dispatch = useDispatch();
+  function handleLogOut() {
+    dispatch(userLoggedOut());
+    localStorage.clear();
+  }
+
   return (
     <Fragment>
       <nav className="shadow-md">
@@ -8,7 +16,10 @@ function MainLayout({ children }) {
           <img className="h-10" src={Logo} />
           <div className="flex items-center gap-3">
             <h2 className="font-medium">Saad Hasan</h2>
-            <button className="flex gap-2 items-center px-4 py-1 rounded-full text-sm transition-all bg-red-600 hover:bg-red-700 font-medium">
+            <button
+              onClick={handleLogOut}
+              className="flex gap-2 items-center px-4 py-1 rounded-full text-sm transition-all bg-red-600 hover:bg-red-700 font-medium"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
