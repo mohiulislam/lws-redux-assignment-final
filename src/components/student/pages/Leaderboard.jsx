@@ -1,7 +1,5 @@
-import {
-  useGetAssignmentMarkQuery,
-  useGetAssignmentMarksQuery,
-} from "features/assignmentMark/assignmentMarkApi";
+import { selectAuth } from "features/auth/authSelector";
+import useAuth from "hooks/useAuth";
 import useResult from "hooks/useResult";
 import React, { useEffect, useState } from "react";
 import MainLayout from "../../layouts/MainLayout";
@@ -9,9 +7,17 @@ import ParticipantResult from "../SubComponents/ParticipantResult";
 import WonResult from "../SubComponents/WonResult";
 
 function Leaderboard() {
+  const auth = useAuth(selectAuth);
+
   const studentResult = useResult();
 
   const [results, setResult] = useState();
+
+  const [wonResult, setWonResult] = useState();
+
+  useEffect(() => {
+    setWonResult(results?.find((student) => student.id === auth?.user?.id));
+  }, [results]);
 
   useEffect(() => {
     if (studentResult) {
@@ -39,7 +45,7 @@ function Leaderboard() {
         }
         student.ranking = currentRank;
       });
-      setResult(resultsForLeaderBoard);
+      setResult(resultsForLeaderBoard?.slice(0, 20));
     }
   }, [studentResult]);
 
@@ -49,7 +55,7 @@ function Leaderboard() {
         <div className="mx-auto max-w-7xl px-5 lg:px-0">
           <div>
             <h3 className="text-lg font-bold">Your Position in Leaderboard</h3>
-            <WonResult />
+            <WonResult result={wonResult || {}} />
           </div>
 
           <div className="my-8">
