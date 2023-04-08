@@ -72,7 +72,6 @@ function App() {
             <Login role="Admin" />
           )}
         />
-
         <Route
           path="/Admin/Assignments"
           element={getRouteComponent(

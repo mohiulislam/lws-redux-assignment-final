@@ -15,11 +15,13 @@ function MainLayout({ children }) {
     <Fragment>
       <nav className="shadow-md">
         <div className="max-w-7xl px-5 lg:px-0 mx-auto flex justify-between py-3">
-          <Link to={"/"}>
+          <Link to={auth?.user?.role === "student" ? "/" : "/Admin/Dashboard"}>
             <img className="h-10" src={Logo} />
           </Link>
           <div className="flex items-center gap-3">
-            {auth?.user?.role === "student" && <Link to="/">Leaderboard</Link>}
+            {auth?.user?.role === "student" && (
+              <Link to="/Leaderboard">Leaderboard</Link>
+            )}
             <h2 className="font-medium">{auth?.user?.name}</h2>
             <button
               onClick={handleLogOut}
