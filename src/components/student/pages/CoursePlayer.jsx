@@ -5,6 +5,7 @@ import MainLayout from "components/layouts/MainLayout";
 import { useGetAssignmentQuery } from "features/assignment/assignmentApi";
 import { useGetAssignmentMarksQuery } from "features/assignmentMark/assignmentMarkApi";
 import { selectCurrentlyPlayingVideoId } from "features/player/playerSelectors";
+import { useGetQuizzesByVideoQuery } from "features/quiz/quizApi";
 import { useGetQuizMarksQuery } from "features/quizMark/quizMarkApi";
 import useAuth from "hooks/useAuth";
 import React, { useEffect, useState } from "react";
@@ -17,16 +18,24 @@ import VideoList from "../SubComponents/VideoList";
 
 function CoursePlayer() {
   const auth = useAuth();
+  const currentlyPlayingVideoId = useSelector(selectCurrentlyPlayingVideoId);
+
+  const { data: quizzes } = useGetQuizzesByVideoQuery(currentlyPlayingVideoId);
 
   const { data: assignmentMarks } = useGetAssignmentMarksQuery();
 
   const { data: quizMarks } = useGetQuizMarksQuery();
 
-  const currentlyPlayingVideoId = useSelector(selectCurrentlyPlayingVideoId);
-
   const { data: assignment } = useGetAssignmentQuery(currentlyPlayingVideoId);
 
-  const [{ id: assignmentId }] = assignment || [{}];
+  const [assignmentId, setAssignmentId] = useState();
+
+  useEffect(() => {
+    if (assignment?.length > 0) {
+      const [{ id: assignmentId }] = assignment || [{}];
+      setAssignmentId(assignmentId);
+    }
+  }, [assignment]);
 
   const [
     isThisUserThisAssignmentSubmitted,
@@ -39,8 +48,6 @@ function CoursePlayer() {
     if (quizMarks) {
       setIsThisUserThisQuizSubmitted(
         quizMarks.some((quizMark) => {
-          console.log(1111111111);
-          console.log(quizMark?.video_id, quizMark?.student_id);
           return quizMark?.video_id == currentlyPlayingVideoId &&
             quizMark?.student_id === auth?.user?.id
             ? true
@@ -63,8 +70,6 @@ function CoursePlayer() {
     }
   }, [assignmentId, assignmentMarks, auth?.user?.id]);
 
-  console.log(isThisUserThisAssignmentSubmitted);
-  console.log(assignmentId);
   const {
     data: videos,
     isLoading: videosIsLoading,
@@ -122,13 +127,15 @@ function CoursePlayer() {
                   Uploaded on {createdAt}
                 </h2>
                 <div className="flex gap-4">
-                  <button
-                    disabled={isThisUserThisAssignmentSubmitted}
-                    onClick={() => setModalOpen(true)}
-                    className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"
-                  >
-                    এসাইনমেন্ট
-                  </button>
+                  {assignment?.length > 0 && (
+                    <button
+                      disabled={isThisUserThisAssignmentSubmitted}
+                      onClick={() => setModalOpen(true)}
+                      className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"
+                    >
+                      এসাইনমেন্ট
+                    </button>
+                  )}
                   {isModalOpen && (
                     <SubmitAssignmentModal
                       setIsThisUserThisAssignmentSubmitted={
@@ -139,16 +146,18 @@ function CoursePlayer() {
                     />
                   )}
 
-                  <Link
-                    to={
-                      isThisUserThisQuizSubmitted
-                        ? null
-                        : `/Quizzes/${currentlyPlayingVideoId}`
-                    }
-                    className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"
-                  >
-                    কুইজে অংশগ্রহণ করুন
-                  </Link>
+                  {quizzes?.length > 0 && (
+                    <Link
+                      to={
+                        isThisUserThisQuizSubmitted
+                          ? null
+                          : `/Quizzes/${currentlyPlayingVideoId}`
+                      }
+                      className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"
+                    >
+                      কুইজে অংশগ্রহণ করুন
+                    </Link>
+                  )}
                 </div>
                 <p className="mt-4 text-sm text-slate-400 leading-6">
                   {videos
