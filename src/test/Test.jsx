@@ -1,56 +1,53 @@
 import React from "react";
-import Quiz from "react-quiz-component";
 
 function Test() {
-  const quiz = [
-    {
-      question: "What is a Debounce function in JavaScript?",
-      options: [
-        {
-          option: "A function that is called after a certain time interval",
-          isCorrect: true,
-        },
-        {
-          option: "A function that is called after a certain time interval",
-          isCorrect: false,
-        },
-        {
-          option: "A function that is called after a certain time interval",
-          isCorrect: false,
-        },
-        {
-          option: "A function that is called after a certain time interval",
-          isCorrect: false,
-        },
-      ],
-    },
-    {
-      question:
-        "Which of the following is an example of a situation where you would use the Debounce function?",
-      options: [
-        {
-          option: "A search bar where the results are displayed as you type.",
-          isCorrect: true,
-        },
-        {
-          option: "A button that performs an action when clicked.",
-          isCorrect: false,
-        },
-        {
-          option: "An animation that plays when a user hovers over an element.",
-          isCorrect: false,
-        },
-        {
-          option: "All of the above.",
-          isCorrect: false,
-        },
-      ],
-    },
-  ];
-
   return (
     <div>
-      <Quiz quiz={quiz} />
+      <form>
+        <div>
+          <label htmlFor={`option1_q1`}>
+            <input type="checkbox" id={`option1_q1`} />
+            {1}
+          </label>
+          <label htmlFor={`option2_q1`}>
+            <input type="checkbox" id={`option1_q1`} />
+            {2}
+          </label>
+          <label htmlFor={`option3_q1`}>
+            <input type="checkbox" id={`option1_q1`} />
+            {3}
+          </label>
+          <label htmlFor={`option4_q1`}>
+            <input type="checkbox" id={`option1_q1`} />
+            {4}
+          </label>
+        </div>
+        <div>
+          <label htmlFor={`option1_q2`}>
+            <input type="checkbox" id={`option1_q2`} />
+            {1}
+          </label>
+          <label htmlFor={`option2_q2`}>
+            <input type="checkbox" id={`option2_q2`} />
+            {2}
+          </label>
+          <label htmlFor={`option3_q2`}>
+            <input type="checkbox" id={`option3_q2`} />
+            {3}
+          </label>
+          <label htmlFor={`option4_q2`}>
+            <input type="checkbox" id={`option4_q2`} />
+            {4}
+          </label>
+        </div>
+        {/* more quiz here... */}
+        <button
+          type="submit"
+          className="bg-cyan-400 px-4 py-2 rounded-full bg-cyan block ml-auto mt-8 hover:opacity-90 text-black active:opacity-100 active:scale-95 "
+        >
+          Submit
+        </button>
+      </form>
     </div>
   );
 }

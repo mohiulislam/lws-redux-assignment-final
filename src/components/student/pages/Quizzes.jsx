@@ -40,7 +40,7 @@ function Quizzes() {
             <form>
               {quizzes?.map((quiz) => (
                 <Quiz quiz={quiz} />
-              ))}{" "}
+              ))}
               <button
                 type="submit"
                 className="bg-cyan-400 px-4 py-2 rounded-full bg-cyan block ml-auto mt-8 hover:opacity-90 text-black active:opacity-100 active:scale-95 "
