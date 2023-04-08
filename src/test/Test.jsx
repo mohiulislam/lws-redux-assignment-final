@@ -1,43 +1,43 @@
 import React from "react";
 
-function Test() {
+function Quizzes() {
   return (
     <div>
       <form>
         <div>
           <label htmlFor={`option1_q1`}>
             <input type="checkbox" id={`option1_q1`} />
-            {1}
+            option
           </label>
           <label htmlFor={`option2_q1`}>
-            <input type="checkbox" id={`option1_q1`} />
-            {2}
+            <input type="checkbox" id={`option2_q1`} />
+            option
           </label>
           <label htmlFor={`option3_q1`}>
-            <input type="checkbox" id={`option1_q1`} />
-            {3}
+            <input type="checkbox" id={`option3_q1`} />
+            option
           </label>
           <label htmlFor={`option4_q1`}>
-            <input type="checkbox" id={`option1_q1`} />
-            {4}
+            <input type="checkbox" id={`option4_q1`} />
+            option
           </label>
         </div>
         <div>
           <label htmlFor={`option1_q2`}>
             <input type="checkbox" id={`option1_q2`} />
-            {1}
+            option
           </label>
           <label htmlFor={`option2_q2`}>
             <input type="checkbox" id={`option2_q2`} />
-            {2}
+            option
           </label>
           <label htmlFor={`option3_q2`}>
             <input type="checkbox" id={`option3_q2`} />
-            {3}
+            option
           </label>
           <label htmlFor={`option4_q2`}>
             <input type="checkbox" id={`option4_q2`} />
-            {4}
+            option
           </label>
         </div>
         {/* more quiz here... */}
@@ -52,4 +52,4 @@ function Test() {
   );
 }
 
-export default Test;
+export default Quizzes;

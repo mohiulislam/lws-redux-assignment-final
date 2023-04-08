@@ -23,10 +23,6 @@ function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!gitRepo) {
-      alert("Please fill in all the required fields.");
-      return;
-    }
     const currentDate = new Date().toISOString();
     submitAssignment({
       repo_link: gitRepo,
@@ -57,11 +53,12 @@ function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
       <h1 className="bg-gradient-to-r from-cyan-500 to-blue-500 p-1 rounded-md inline-block  px-2 ">
         সর্বমোট নাম্বার - <span className="">{totalMark}</span>
       </h1>
-      <form className="mt-10">
+      <form onSubmit={handleSubmit} className="mt-10">
         <label className="block" htmlFor="gitRepoLink">
           গিটহাব রিপোসিটরি লিঙ্ক <span className="text-red-500">*</span>
         </label>
         <input
+          required
           onChange={(e) => setGitRepo(e.target.value)}
           className="mt-2 bg-blue-950 rounded-md outline-none focus:ring-cyan-500 focus:ring-2 h-10 w-full"
           type="text"
@@ -71,7 +68,6 @@ function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
         <button
           className=" mt-10 block from-cyan-500 bg-gradient-to-r to-blue-500 rounded-md p-2"
           type="submit"
-          onClick={handleSubmit}
         >
           এসাইনমেন্ট জমা দিন
         </button>

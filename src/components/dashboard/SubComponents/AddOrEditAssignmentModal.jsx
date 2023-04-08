@@ -65,10 +65,6 @@ function AddAssignmentModal({
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!title || !totalMark || !selectedVideoTitle || !selectedVideoId) {
-      alert("Please fill in all the required fields.");
-      return;
-    }
     !assignmentIdToEdit
       ? addAssignment({
           title: `Assignment ${assignments.length + 1} - ${title}`,
@@ -109,7 +105,7 @@ function AddAssignmentModal({
         <span className="text-cyan-400">এসাইনমেন্ট</span>
         {assignmentIdToEdit ? "এডিট" : "তৈরি"} করুন
       </h1>
-      <form className="mt-10">
+      <form onSubmit={handleSubmit} className="mt-10">
         <label className="block" htmlFor="title">
           এসাইনমেন্ট টাইটেল <span className="text-red-500">*</span>
         </label>
@@ -162,7 +158,6 @@ function AddAssignmentModal({
         <button
           className=" mt-10 block from-cyan-500 bg-gradient-to-r to-blue-500 rounded-md p-2"
           type="submit"
-          onClick={handleSubmit}
         >
           {assignmentIdToEdit ? "এডিট" : "তৈরি"} করুন
         </button>

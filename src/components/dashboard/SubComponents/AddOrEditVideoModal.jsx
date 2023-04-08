@@ -44,11 +44,6 @@ function AddOrEditVideoModal({
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (!title || !description || !url || !views || !duration) {
-      alert("Please fill in all the required fields.");
-      return;
-    }
-
     const currentDate = new Date();
     !videoIdToEdit
       ? addVideo({
@@ -100,7 +95,7 @@ function AddOrEditVideoModal({
         {videoIdToEdit ? "এডিট" : "তৈরি"} করুন
       </h1>
 
-      <form className="mt-10">
+      <form onSubmit={handleSubmit} className="mt-10">
         <label className="block" htmlFor="title">
           ভিডিও টাইটেল <span className="text-red-500">*</span>
         </label>
@@ -164,7 +159,6 @@ function AddOrEditVideoModal({
         <button
           className=" mt-10 block from-cyan-500 bg-gradient-to-r to-blue-500 rounded-md p-2"
           type="submit"
-          onClick={handleSubmit}
         >
           {videoIdToEdit ? "এডিট" : "তৈরি"} করুন
         </button>

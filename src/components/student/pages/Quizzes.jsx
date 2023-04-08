@@ -1,13 +1,20 @@
+import { current } from "@reduxjs/toolkit";
 import Error from "components/common/Error";
 import Loader from "components/common/Loader";
 import NotFound from "components/common/NotFound";
-import { useGetQuizzesQuery } from "features/quiz/quizApi";
-import React from "react";
+import {
+  useGetQuizzesByVideoQuery,
+  useGetQuizzesQuery,
+} from "features/quiz/quizApi";
+import calculateQuizResult from "lib/calculateQuizResult";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import MainLayout from "../../layouts/MainLayout";
 import Quiz from "../SubComponents/Quiz";
 
 function Quizzes() {
+  const [quizResult, setQuizResult] = useState();
+
   const { videoId } = useParams();
 
   const {
@@ -15,7 +22,23 @@ function Quizzes() {
     isLoading: isLoadingQuiz,
     isError: isErrorQuiz,
     error: errorQuiz,
-  } = useGetQuizzesQuery(videoId);
+  } = useGetQuizzesByVideoQuery(videoId);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const selectedValues = [];
+    const checkboxes = document.getElementsByTagName("input");
+    for (let i = 0; i < checkboxes.length; i++) {
+      if (checkboxes[i].type === "checkbox" && checkboxes[i].checked) {
+        selectedValues.push({
+          id: checkboxes[i].id,
+          value: checkboxes[i].value,
+        });
+      }
+    }
+    setQuizResult(calculateQuizResult(quizzes, selectedValues));
+  };
+  console.log(quizResult);
 
   if (isLoadingQuiz) {
     return <Loader />;
@@ -26,6 +49,11 @@ function Quizzes() {
   if (!isLoadingQuiz && !isErrorQuiz && quizzes.length === 0) {
     return <NotFound desire="quiz" />;
   }
+
+  // if (selectedValues) {
+  //   console.log(selectedValues);
+  // }
+
   return (
     <MainLayout>
       <section className="py-6 bg-primary">
@@ -37,7 +65,7 @@ function Quizzes() {
             </p>
           </div>
           <div className="space-y-8 ">
-            <form>
+            <form onSubmit={handleSubmit}>
               {quizzes?.map((quiz) => (
                 <Quiz quiz={quiz} />
               ))}

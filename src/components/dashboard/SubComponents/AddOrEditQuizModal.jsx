@@ -58,11 +58,6 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
   } = useGetQuizzesQuery();
 
   function handleSubmit(e) {
-    if (!question || !option_1 || !option_2 || !option_3) {
-      alert("Please fill required field");
-      return;
-    }
-
     e.preventDefault();
     !quizIdToEdit
       ? addQuiz({
@@ -125,7 +120,7 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
         {quizIdToEdit ? "এডিট" : "তৈরি"} করুন
       </h1>
       <p className="text-yellow-400">সঠিক উত্তরের টিক চিহ্ন দিন।</p>
-      <form className="mt-10">
+      <form onSubmit={handleSubmit} className="mt-10">
         <label className="block" htmlFor="question">
           প্রশ্ন<span className="text-red-500">*</span>
         </label>
@@ -262,7 +257,6 @@ function AddOrEditQuizModal({ quizIdToEdit, setQuizIdToEdit, setModalOpen }) {
         <button
           className=" mt-8 block from-cyan-500 bg-gradient-to-r to-blue-500 rounded-md p-2"
           type="submit"
-          onClick={handleSubmit}
         >
           {quizIdToEdit ? "এডিট" : "তৈরি"} করুন
         </button>
