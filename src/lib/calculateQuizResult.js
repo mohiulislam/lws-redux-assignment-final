@@ -1,6 +1,6 @@
 function calculateQuizResult(quizData, selectedResult) {
   let totalCorrect = 0;
-  let totalWrong = 0;
+
   let totalMark = 0;
 
   for (let i = 0; i < quizData.length; i++) {
@@ -29,12 +29,10 @@ function calculateQuizResult(quizData, selectedResult) {
     if (isCorrect) {
       totalCorrect++;
       totalMark += 5;
-    } else {
-      totalWrong++;
     }
   }
 
-  return { totalCorrect, totalWrong, totalMark };
+  return { totalCorrect, totalMark };
 }
 
 export default calculateQuizResult;

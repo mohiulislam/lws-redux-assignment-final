@@ -1,9 +1,9 @@
 import Error from "components/common/Error";
 import Loader from "components/common/Loader";
 import NotFound from "components/common/NotFound";
+import MainLayout from "components/layouts/MainLayout";
 import { useGetAssignmentMarksQuery } from "features/assignmentMark/assignmentMarkApi";
 import React, { useEffect, useState } from "react";
-import MainLayout from "../../layouts/MainLayout";
 import AssignmentMark from "../SubComponents/AssignmentMark";
 
 function AssignmentMarks() {

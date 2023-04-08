@@ -3,7 +3,7 @@ import Loader from "components/common/Loader";
 import NotFound from "components/common/NotFound";
 import { useGetAssignmentsQuery } from "features/assignment/assignmentApi";
 import React, { useState } from "react";
-import MainLayout from "../../layouts/MainLayout";
+import MainLayout from "components/layouts/MainLayout";
 import AddOrEditAssignmentModal from "../SubComponents/AddOrEditAssignmentModal";
 import Assignment from "../SubComponents/Assignment";
 

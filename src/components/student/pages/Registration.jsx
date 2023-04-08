@@ -1,6 +1,6 @@
+import { useRegisterMutation } from "features/auth/authApi";
 import React, { useState } from "react";
-import Logo from "../../../assets/image/learningportal.svg";
-import { useRegisterMutation } from "../../../features/auth/authApi";
+import Logo from "assets/image/learningportal.svg";
 
 function Registration() {
   const [register, { data, isLoading, error: responseError }] =
@@ -12,6 +12,10 @@ function Registration() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      alert("Password doesn't match");
+      return;
+    }
     register({
       name,
       email,

@@ -1,21 +1,24 @@
-import { current } from "@reduxjs/toolkit";
 import Error from "components/common/Error";
 import Loader from "components/common/Loader";
 import NotFound from "components/common/NotFound";
-import {
-  useGetQuizzesByVideoQuery,
-  useGetQuizzesQuery,
-} from "features/quiz/quizApi";
+import { selectAuth } from "features/auth/authSelector";
+import { useGetQuizzesByVideoQuery } from "features/quiz/quizApi";
+import { useSentQuizMarksMutation } from "features/quizMark/quizMarkApi";
+import useAuth from "hooks/useAuth";
 import calculateQuizResult from "lib/calculateQuizResult";
-import React, { useState } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import MainLayout from "../../layouts/MainLayout";
 import Quiz from "../SubComponents/Quiz";
 
 function Quizzes() {
-  const [quizResult, setQuizResult] = useState();
+  const navigate = useNavigate();
 
   const { videoId } = useParams();
+  const auth = useAuth(selectAuth);
+  const [sentQuizMark, { isLoading, isSuccess, isError }] =
+    useSentQuizMarksMutation();
 
   const {
     data: quizzes,
@@ -36,9 +39,22 @@ function Quizzes() {
         });
       }
     }
-    setQuizResult(calculateQuizResult(quizzes, selectedValues));
+    const quizResult = calculateQuizResult(quizzes, selectedValues);
+
+    sentQuizMark({
+      student_id: auth?.user?.id,
+      student_name: auth?.user?.name,
+      video_id: videoId,
+      video_title: quizzes?.find((quiz) => quiz?.id === parseFloat(videoId))
+        ?.video_title,
+      totalMark: quizResult?.totalMark,
+      totalWrong: quizzes?.length - quizResult?.totalCorrect,
+      totalCorrect: quizResult?.totalCorrect,
+      totalQuiz: quizzes?.length,
+      mark: 5,
+    });
+    navigate("/Leaderboard");
   };
-  console.log(quizResult);
 
   if (isLoadingQuiz) {
     return <Loader />;
@@ -49,10 +65,6 @@ function Quizzes() {
   if (!isLoadingQuiz && !isErrorQuiz && quizzes.length === 0) {
     return <NotFound desire="quiz" />;
   }
-
-  // if (selectedValues) {
-  //   console.log(selectedValues);
-  // }
 
   return (
     <MainLayout>
@@ -67,7 +79,7 @@ function Quizzes() {
           <div className="space-y-8 ">
             <form onSubmit={handleSubmit}>
               {quizzes?.map((quiz) => (
-                <Quiz quiz={quiz} />
+                <Quiz key={quiz?.id} quiz={quiz} />
               ))}
               <button
                 type="submit"

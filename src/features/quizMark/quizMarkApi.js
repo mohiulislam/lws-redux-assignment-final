@@ -8,7 +8,30 @@ export const quizMarkApi = apiSlice.injectEndpoints({
         method: "GET",
       }),
     }),
+    sentQuizMarks: builder.mutation({
+      query: (data) => ({
+        url: `/quizMark`,
+        method: "POST",
+        body: data,
+      }),
+      onQueryStarted: async (arg, { queryFulfilled, dispatch }) => {
+        try {
+          const { data: addedQuizMark } = await queryFulfilled;
+          dispatch(
+            apiSlice.util.updateQueryData(
+              "getQuizMarks",
+              undefined,
+              (draft) => {
+                draft.push(addedQuizMark);
+              }
+            )
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      },
+    }),
   }),
 });
 
-export const { useGetQuizMarksQuery } = quizMarkApi;
+export const { useGetQuizMarksQuery, useSentQuizMarksMutation } = quizMarkApi;

@@ -3,6 +3,7 @@ import Loader from "components/common/Loader";
 import NotFound from "components/common/NotFound";
 import MainLayout from "components/layouts/MainLayout";
 import { selectCurrentlyPlayingVideoId } from "features/player/playerSelectors";
+import useAuth from "hooks/useAuth";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -12,6 +13,9 @@ import SubmitAssignmentModal from "../SubComponents/SubmitAssignmentModal";
 import VideoList from "../SubComponents/VideoList";
 
 function CoursePlayer() {
+  
+  const auth = useAuth();
+
   const currentlyPlayingVideoId = useSelector(selectCurrentlyPlayingVideoId);
   const {
     data: videos,
@@ -19,7 +23,7 @@ function CoursePlayer() {
     isError: videosIsError,
     error: videosError,
   } = useGetVideosQuery();
-  
+
   const [createdAt, setCreatedAt] = useState("");
   useEffect(() => {
     if (videos) {

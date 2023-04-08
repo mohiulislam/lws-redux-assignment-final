@@ -1,8 +1,4 @@
 import { useEffect, useState } from "react";
-
-const {
-  default: Assignment,
-} = require("components/dashboard/SubComponents/Assignment");
 const {
   useGetAssignmentMarksQuery,
 } = require("features/assignmentMark/assignmentMarkApi");
@@ -10,26 +6,11 @@ const { useGetQuizMarksQuery } = require("features/quizMark/quizMarkApi");
 const { useGetUserQuery } = require("features/user/userApi");
 
 export default function useResult() {
-  const {
-    data: users,
-    isError: usersIsError,
-    isLoading: usersIsLoading,
-    error: usersError,
-  } = useGetUserQuery();
+  const { data: users } = useGetUserQuery();
 
-  const {
-    data: assignmentMarks,
-    isError: assignmentMarkIsError,
-    isLoading: assignmentIsLoading,
-    error: assignmentError,
-  } = useGetAssignmentMarksQuery();
+  const { data: assignmentMarks } = useGetAssignmentMarksQuery();
 
-  const {
-    data: quizMarks,
-    isError: quizMarkIsError,
-    isLoading: quizMarkIsLoading,
-    error: quizMarkError,
-  } = useGetQuizMarksQuery();
+  const { data: quizMarks } = useGetQuizMarksQuery();
 
   const [result, setResult] = useState();
 

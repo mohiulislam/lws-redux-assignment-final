@@ -8,8 +8,6 @@ import { selectAuth } from "features/auth/authSelector";
 function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
   const {
     data: assignment,
-    isLoading: assignmentIsLoading,
-    isError: assignmentIsError,
   } = useGetAssignmentQuery(currentlyPlayingVideoId);
 
   const auth = useSelector(selectAuth);

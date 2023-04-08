@@ -32,9 +32,15 @@ function App() {
             <Login role="Student" />
           )}
         />
-
-        <Route path="/Registration" element={<Registration />} />
-
+        <Route
+          path="/Registration"
+          element={getRouteComponent(
+            auth?.user?.role,
+            ["student"],
+            <Navigate to={"/CoursePlayer"} />,
+            <Registration role="Student" />
+          )}
+        />
         <Route
           path="/Quizzes/:videoId"
           element={getRouteComponent(

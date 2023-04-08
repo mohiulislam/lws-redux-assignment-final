@@ -1,12 +1,13 @@
+import Error from "components/common/Error";
+import Loader from "components/common/Loader";
+import NotFound from "components/common/NotFound";
 import { currentlyPlayed } from "features/player/playerSlice";
+import { useGetVideosQuery } from "features/video/videoApi";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
-import { useGetVideosQuery } from "../../../features/video/videoApi";
-import Error from "../../common/Error";
-import Loader from "../../common/Loader";
-import NotFound from "../../common/NotFound";
 import VIdeoListVideo from "./VIdeoListVideo";
+
+
 
 function VideoList() {
   const dispatch = useDispatch();

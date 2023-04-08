@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../assets/image/learningportal.svg";
-import { useLoginMutation } from "../../features/auth/authApi";
+import Logo from "assets/image/learningportal.svg";
+import { useLoginMutation } from "features/auth/authApi";
 
 function Login({ role }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [login, { data, isLoading, error: responseError }] = useLoginMutation();
+
 
   const handleSubmit = (event) => {
     event.preventDefault();

@@ -1,6 +1,6 @@
+import MainLayout from "components/layouts/MainLayout";
 import React from "react";
 import { Link } from "react-router-dom";
-import MainLayout from "../../layouts/MainLayout";
 
 function Dashboard() {
   return (

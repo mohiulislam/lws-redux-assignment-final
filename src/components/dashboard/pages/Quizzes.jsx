@@ -1,9 +1,9 @@
 import Error from "components/common/Error";
 import Loader from "components/common/Loader";
 import NotFound from "components/common/NotFound";
+import MainLayout from "components/layouts/MainLayout";
 import { useGetQuizzesQuery } from "features/quiz/quizApi";
 import React, { useState } from "react";
-import MainLayout from "../../layouts/MainLayout";
 import AddOrEditQuizModal from "../SubComponents/AddOrEditQuizModal";
 import Quiz from "../SubComponents/Quiz";
 

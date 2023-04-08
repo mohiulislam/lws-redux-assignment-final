@@ -1,9 +1,10 @@
+import MainLayout from "components/layouts/MainLayout";
 import { selectAuth } from "features/auth/authSelector";
 import useAuth from "hooks/useAuth";
 import useResult from "hooks/useResult";
 import React, { useEffect, useState } from "react";
-import MainLayout from "../../layouts/MainLayout";
 import ParticipantResult from "../SubComponents/ParticipantResult";
+
 import WonResult from "../SubComponents/WonResult";
 
 function Leaderboard() {
@@ -17,7 +18,7 @@ function Leaderboard() {
 
   useEffect(() => {
     setWonResult(results?.find((student) => student.id === auth?.user?.id));
-  }, [results]);
+  }, [results,auth?.user?.id]);
 
   useEffect(() => {
     if (studentResult) {
@@ -72,7 +73,7 @@ function Leaderboard() {
               </thead>
               <tbody>
                 {results?.map((result) => (
-                  <ParticipantResult result={result || {}} />
+                  <ParticipantResult key={result.id} result={result || {}} />
                 ))}
               </tbody>
             </table>

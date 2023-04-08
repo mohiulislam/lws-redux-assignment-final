@@ -7,6 +7,7 @@ import { useGetVideosQuery } from "features/video/videoApi";
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
+
 function AddAssignmentModal({
   assignmentIdToEdit,
   setAssignmentIdToEdit,
@@ -26,30 +27,9 @@ function AddAssignmentModal({
     isError: videosIsError,
   } = useGetVideosQuery();
 
-  const {
-    data: assignments,
-    // isLoading: assignmentsIsLoading,
-    // isError: assignmentsIsError,
-    // error: assignmentsError,
-  } = useGetAssignmentsQuery();
-  const [
-    updateAssignment,
-    // {
-    //   isLoading: updateLoading,
-    //   isSuccess: updateSuccess,
-    //   isError: updateIsError,
-    //   error: updateError,
-    // },
-  ] = useUpdateAssignmentMutation();
-  const [
-    addAssignment,
-    // {
-    //   isLoading: addLoading,
-    //   isSuccess: addSuccess,
-    //   isError: addIsError,
-    //   error: addError,
-    // },
-  ] = useAddAssignmentMutation();
+  const { data: assignments } = useGetAssignmentsQuery();
+  const [updateAssignment] = useUpdateAssignmentMutation();
+  const [addAssignment] = useAddAssignmentMutation();
 
   useEffect(() => {
     if (assignmentIdToEdit) {
