@@ -2,13 +2,46 @@ import {
   useGetAssignmentMarkQuery,
   useGetAssignmentMarksQuery,
 } from "features/assignmentMark/assignmentMarkApi";
-import React from "react";
+import useResult from "hooks/useResult";
+import React, { useEffect, useState } from "react";
 import MainLayout from "../../layouts/MainLayout";
 import ParticipantResult from "../SubComponents/ParticipantResult";
 import WonResult from "../SubComponents/WonResult";
 
 function Leaderboard() {
+  const studentResult = useResult();
 
+  const [results, setResult] = useState();
+
+  useEffect(() => {
+    if (studentResult) {
+      const resultsForLeaderBoard = studentResult.map((student) => {
+        const totalMark = student.quizMark + student.assignmentMark;
+        return {
+          id: student.id,
+          name: student.name,
+          quizMark: student.quizMark,
+          assignmentMark: student.assignmentMark,
+          totalMark: totalMark,
+          ranking: 0,
+        };
+      });
+
+      resultsForLeaderBoard.sort((a, b) => b.totalMark - a.totalMark);
+
+      let currentRank = 1;
+      let currentTotalMark = resultsForLeaderBoard[0]?.totalMark;
+
+      resultsForLeaderBoard.forEach((student, index) => {
+        if (student.totalMark < currentTotalMark) {
+          currentRank++;
+          currentTotalMark = student.totalMark;
+        }
+        student.ranking = currentRank;
+      });
+      setResult(resultsForLeaderBoard);
+    }
+  }, [studentResult]);
 
   return (
     <MainLayout>
@@ -32,9 +65,9 @@ function Leaderboard() {
                 </tr>
               </thead>
               <tbody>
-                <ParticipantResult />
-                <ParticipantResult />
-                <ParticipantResult />
+                {results?.map((result) => (
+                  <ParticipantResult result={result || {}} />
+                ))}
               </tbody>
             </table>
           </div>
