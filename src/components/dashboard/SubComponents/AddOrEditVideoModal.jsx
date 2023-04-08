@@ -17,25 +17,9 @@ function AddOrEditVideoModal({
   const [duration, setDuration] = useState(null);
   const [views, setViews] = useState(null);
 
-  const [
-    updateVideo,
-    // {
-    //   isLoading: updateLoading,
-    //   isSuccess: updateSuccess,
-    //   isError: updateIsError,
-    //   error: updateError,
-    // }
-  ] = useUpdateVideoMutation();
+  const [updateVideo] = useUpdateVideoMutation();
 
-  const [
-    addVideo,
-    // {
-    //   isLoading: addLoading,
-    //   isSuccess: addSuccess,
-    //   isError: addIsError,
-    //   error: addError,
-    // }
-  ] = useAddVideoMutation();
+  const [addVideo] = useAddVideoMutation();
 
   function handleModalClose() {
     setModalOpen(false);

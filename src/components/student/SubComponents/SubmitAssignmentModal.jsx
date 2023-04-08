@@ -4,11 +4,10 @@ import { useGetAssignmentQuery } from "features/assignment/assignmentApi";
 import { useSubmitAssignmentMutation } from "features/assignmentMark/assignmentMarkApi";
 import { useSelector } from "react-redux";
 import { selectAuth } from "features/auth/authSelector";
+import useAuth from "hooks/useAuth";
 
 function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
-  const {
-    data: assignment,
-  } = useGetAssignmentQuery(currentlyPlayingVideoId);
+  const { data: assignment } = useGetAssignmentQuery(currentlyPlayingVideoId);
 
   const auth = useSelector(selectAuth);
 
@@ -26,7 +25,7 @@ function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
       repo_link: gitRepo,
       student_name: auth?.user?.name,
       assignment_id: id,
-      student_id: 100,
+      student_id: auth?.user?.id,
       status: "pending",
       createdAt: currentDate,
       title,

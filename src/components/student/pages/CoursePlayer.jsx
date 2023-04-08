@@ -2,6 +2,7 @@ import Error from "components/common/Error";
 import Loader from "components/common/Loader";
 import NotFound from "components/common/NotFound";
 import MainLayout from "components/layouts/MainLayout";
+import { useGetAssignmentMarksQuery } from "features/assignmentMark/assignmentMarkApi";
 import { selectCurrentlyPlayingVideoId } from "features/player/playerSelectors";
 import useAuth from "hooks/useAuth";
 import React, { useEffect, useState } from "react";
@@ -13,8 +14,15 @@ import SubmitAssignmentModal from "../SubComponents/SubmitAssignmentModal";
 import VideoList from "../SubComponents/VideoList";
 
 function CoursePlayer() {
-  
   const auth = useAuth();
+
+  const { data: assignmentMarks } = useGetAssignmentMarksQuery;
+
+  // const isThisAssignmentSubmitted=
+  //   assignmentMarks.some((assignmentMark)=>{
+    
+  //   })
+
 
   const currentlyPlayingVideoId = useSelector(selectCurrentlyPlayingVideoId);
   const {
@@ -75,6 +83,7 @@ function CoursePlayer() {
                 </h2>
                 <div className="flex gap-4">
                   <button
+                    // disabled={isThisAssignmentSubmitted}
                     onClick={() => setModalOpen(true)}
                     className="px-3 font-bold py-1 border border-cyan text-cyan rounded-full text-sm hover:bg-cyan hover:text-primary"
                   >
