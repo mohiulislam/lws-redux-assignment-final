@@ -79,7 +79,7 @@ function App() {
             auth?.user?.role,
             ["admin"],
             <Assignments />,
-            <Navigate path="/Admin/Login" />
+            <Navigate to="/Admin/Login" />
           )}
         />
         <Route

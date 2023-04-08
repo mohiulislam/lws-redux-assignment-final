@@ -1,6 +1,7 @@
+import { selectAuth } from "features/auth/authSelector";
 import { userLoggedOut } from "features/auth/authSlice";
 import React, { Fragment } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Logo from "../../assets/image/learningportal.svg";
 function MainLayout({ children }) {
@@ -9,7 +10,7 @@ function MainLayout({ children }) {
     dispatch(userLoggedOut());
     localStorage.clear();
   }
-
+  const auth = useSelector(selectAuth);
   return (
     <Fragment>
       <nav className="shadow-md">
@@ -18,8 +19,8 @@ function MainLayout({ children }) {
             <img className="h-10" src={Logo} />
           </Link>
           <div className="flex items-center gap-3">
-            <Link to="/">Leaderboard</Link>
-            <h2 className="font-medium">Saad Hasan</h2>
+            {auth?.user?.role === "student" && <Link to="/">Leaderboard</Link>}
+            <h2 className="font-medium">{auth?.user?.name}</h2>
             <button
               onClick={handleLogOut}
               className="flex gap-2 items-center px-4 py-1 rounded-full text-sm transition-all bg-red-600 hover:bg-red-700 font-medium"
