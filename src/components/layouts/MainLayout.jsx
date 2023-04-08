@@ -1,6 +1,7 @@
 import { userLoggedOut } from "features/auth/authSlice";
 import React, { Fragment } from "react";
 import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import Logo from "../../assets/image/learningportal.svg";
 function MainLayout({ children }) {
   const dispatch = useDispatch();
@@ -13,8 +14,11 @@ function MainLayout({ children }) {
     <Fragment>
       <nav className="shadow-md">
         <div className="max-w-7xl px-5 lg:px-0 mx-auto flex justify-between py-3">
-          <img className="h-10" src={Logo} />
+          <Link to={"/"}>
+            <img className="h-10" src={Logo} />
+          </Link>
           <div className="flex items-center gap-3">
+            <Link to="/">Leaderboard</Link>
             <h2 className="font-medium">Saad Hasan</h2>
             <button
               onClick={handleLogOut}

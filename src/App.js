@@ -12,28 +12,112 @@ import React from "react";
 import AdminQuizzes from "components/dashboard/pages/Quizzes";
 import Videos from "components/dashboard/pages/Videos";
 import Login from "components/common/Login";
+import useAuth from "hooks/useAuth";
+import getRouteComponent from "lib/getRouteComponent";
+import { Navigate } from "react-router-dom";
 function App() {
+  const auth = useAuth();
   const isAuthentic = useAuthCheck();
   return !isAuthentic ? (
     <AuthLoader />
   ) : (
     <Router>
       <Routes>
-        <Route path="/" element={<Login role="Student" />} />
+        <Route
+          path="/"
+          element={getRouteComponent(
+            auth?.user?.role,
+            ["student"],
+            <Navigate to={"/CoursePlayer"} />,
+            <Login role="Student" />
+          )}
+        />
 
-        <Route path="/Quizzes/:videoId" element={<Quizzes />} />
-
-        <Route path="/CoursePlayer/" element={<CoursePlayer />} />
-        <Route path="/Leaderboard" element={<Leaderboard />} />
         <Route path="/Registration" element={<Registration />} />
 
-        <Route path="/Admin/Login" element={<Login role="Admin" />} />
+        <Route
+          path="/Quizzes/:videoId"
+          element={getRouteComponent(
+            auth?.user?.role,
+            ["student"],
+            <Quizzes />,
+            <Navigate to="/" />
+          )}
+        />
+        <Route
+          path="/CoursePlayer/"
+          element={getRouteComponent(
+            auth?.user?.role,
+            ["student"],
+            <CoursePlayer />,
+            <Navigate to="/" />
+          )}
+        />
+        <Route
+          path="/Leaderboard"
+          element={getRouteComponent(
+            auth?.user?.role,
+            ["student"],
+            <Leaderboard />,
+            <Navigate to="/" />
+          )}
+        />
 
-        <Route path="/Admin/Assignments" element={<Assignments />} />
-        <Route path="/Admin/AssignmentMarks" element={<AssignmentMarks />} />
-        <Route path="/Admin/Dashboard" element={<Dashboard />} />
-        <Route path="/Admin/Quizzes" element={<AdminQuizzes />} />
-        <Route path="/Admin/Videos" element={<Videos />} />
+        <Route
+          path="/Admin/Login"
+          element={getRouteComponent(
+            auth?.user?.role,
+            ["admin"],
+            <Navigate to={"/Admin/Dashboard"} />,
+            <Login role="Admin" />
+          )}
+        />
+
+        <Route
+          path="/Admin/Assignments"
+          element={getRouteComponent(
+            auth?.user?.role,
+            ["admin"],
+            <Assignments />,
+            <Navigate path="/Admin/Login" />
+          )}
+        />
+        <Route
+          path="/Admin/AssignmentMarks"
+          element={getRouteComponent(
+            auth?.user?.role,
+            ["admin"],
+            <AssignmentMarks />,
+            <Navigate to="/Admin/Login" />
+          )}
+        />
+        <Route
+          path="/Admin/Dashboard"
+          element={getRouteComponent(
+            auth?.user?.role,
+            ["admin"],
+            <Dashboard />,
+            <Navigate to="/Admin/Login" />
+          )}
+        />
+        <Route
+          path="/Admin/Quizzes"
+          element={getRouteComponent(
+            auth?.user?.role,
+            ["admin"],
+            <AdminQuizzes />,
+            <Navigate to="/Admin/Login" />
+          )}
+        />
+        <Route
+          path="/Admin/Videos"
+          element={getRouteComponent(
+            auth?.user?.role,
+            ["admin"],
+            <Videos />,
+            <Navigate to="/Admin/Login" />
+          )}
+        />
       </Routes>
     </Router>
   );

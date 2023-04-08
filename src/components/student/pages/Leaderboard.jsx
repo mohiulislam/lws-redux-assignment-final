@@ -1,9 +1,15 @@
+import {
+  useGetAssignmentMarkQuery,
+  useGetAssignmentMarksQuery,
+} from "features/assignmentMark/assignmentMarkApi";
 import React from "react";
 import MainLayout from "../../layouts/MainLayout";
 import ParticipantResult from "../SubComponents/ParticipantResult";
 import WonResult from "../SubComponents/WonResult";
 
 function Leaderboard() {
+
+
   return (
     <MainLayout>
       <section className="py-6 bg-primary">
@@ -26,8 +32,6 @@ function Leaderboard() {
                 </tr>
               </thead>
               <tbody>
-                <ParticipantResult />
-                <ParticipantResult />
                 <ParticipantResult />
                 <ParticipantResult />
                 <ParticipantResult />
