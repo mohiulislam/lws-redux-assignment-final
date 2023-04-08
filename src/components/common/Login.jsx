@@ -16,9 +16,11 @@ function Login({ role }) {
   };
 
   return (
-    <section className="py-6 bg-primary h-screen grid place-items-center">
+    <section className="py-6 bg-primary h-screen grid place-items-center"><p className="text-xl text-yellow-400 font-HindSiliguri">এডমিন লগইন করতে /Admin/Login রাউটে যান । 
+    </p>
       <div className="mx-auto max-w-md px-5 lg:px-0">
         <div>
+        
           <img className="h-12 mx-auto" src={Logo} />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-100">
             Sign in to {role} Account
@@ -60,7 +62,6 @@ function Login({ role }) {
               />
             </div>
           </div>
-
           <div className="flex items-center justify-end">
             <div className="text-sm">
               {role === "Student" ? (

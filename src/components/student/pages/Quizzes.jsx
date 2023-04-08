@@ -75,6 +75,9 @@ function Quizzes() {
             <p className="text-sm text-slate-200">
               Each question contains 5 Mark
             </p>
+            <p className="font-HindSiliguri pt-4 text-yellow-400">
+              প্রশ্নের একাধিক উত্তর হতে পারে ।
+            </p>
           </div>
           <div className="space-y-8 ">
             <form onSubmit={handleSubmit}>

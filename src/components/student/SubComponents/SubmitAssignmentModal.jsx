@@ -6,20 +6,24 @@ import { useSelector } from "react-redux";
 import { selectAuth } from "features/auth/authSelector";
 import useAuth from "hooks/useAuth";
 
-function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
+function SubmitAssignmentModal({
+  setIsThisUserThisAssignmentSubmitted,
+  setModalOpen,
+  currentlyPlayingVideoId,
+}) {
   const { data: assignment } = useGetAssignmentQuery(currentlyPlayingVideoId);
 
   const auth = useSelector(selectAuth);
 
   const [{ title, id, totalMark }] = assignment || [{}];
 
-  const [submitAssignment, { isLoading, isSuccess, isError, error }] =
-    useSubmitAssignmentMutation();
+  const [submitAssignment] = useSubmitAssignmentMutation();
 
   const [gitRepo, setGitRepo] = useState();
 
   function handleSubmit(e) {
     e.preventDefault();
+    setIsThisUserThisAssignmentSubmitted(true);
     const currentDate = new Date().toISOString();
     submitAssignment({
       repo_link: gitRepo,
@@ -29,6 +33,7 @@ function SubmitAssignmentModal({ setModalOpen, currentlyPlayingVideoId }) {
       status: "pending",
       createdAt: currentDate,
       title,
+      mark: 0,
     });
   }
 

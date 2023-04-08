@@ -7,7 +7,6 @@ import { useGetVideosQuery } from "features/video/videoApi";
 import React, { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
-
 function AddAssignmentModal({
   assignmentIdToEdit,
   setAssignmentIdToEdit,
@@ -122,18 +121,11 @@ function AddAssignmentModal({
           {!videosIsLoading &&
             !videosIsError &&
             videos.length > 0 &&
-            videos
-              .filter(
-                (video) =>
-                  !assignments.some(
-                    (assignment) => assignment.video_id === video.id
-                  )
-              )
-              .map((video) => (
-                <option key={video.id} data-id={video.id} value={video.title}>
-                  {video.title?.trim()?.match(/^(\S+\s+){0,7}\S+/)[0]}...
-                </option>
-              ))}
+            videos.map((video) => (
+              <option key={video.id} data-id={video.id} value={video.title}>
+                {video.title?.trim()?.match(/^(\S+\s+){0,7}\S+/)[0]}...
+              </option>
+            ))}
         </select>
         <button
           className=" mt-10 block from-cyan-500 bg-gradient-to-r to-blue-500 rounded-md p-2"
